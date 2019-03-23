@@ -87,15 +87,14 @@ public class DatasetsApiController implements DatasetsApi {
 
     public ResponseEntity<Dataset> getDatasetById(@ApiParam(value = "pass the dataset id to return its properties",required=true) @PathVariable("datasetId") String datasetId) {
         String accept = request.getHeader("Accept");
-        // TODO En proceso. Solucionar error grave donde los IDs son Long en lugar de String. Regenerar la BD tras ello y completar.
-/*        if(datasetId==null)
+        // TODO Revisar
+        if(datasetId==null)
             return new ResponseEntity<Dataset>(HttpStatus.BAD_REQUEST);
-        Dataset dataset = datasetRepository.getOne(datasetId);
+        Dataset dataset = datasetRepository.findById(datasetId);
         if(dataset==null)
             return new ResponseEntity<Dataset>(dataset, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<Dataset>(dataset, HttpStatus.OK);*/
-        return new ResponseEntity<Dataset>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<Dataset>(dataset, HttpStatus.OK);
     }
 
 }
