@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
 public class Dataset   {
   @Id
   @JsonProperty("id")
-  private Long id = null;
+  private String id = null;
 
   @JsonProperty("title")
   private String title = null;
@@ -57,7 +57,7 @@ public class Dataset   {
   @JsonProperty("license")
   private String license = null;
 
-  public Dataset id(Long id) {
+  public Dataset id(String id) {
     this.id = id;
     return this;
   }
@@ -69,11 +69,11 @@ public class Dataset   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

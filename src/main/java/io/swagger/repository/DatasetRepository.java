@@ -9,4 +9,5 @@ public interface DatasetRepository extends JpaRepository<Dataset, Long> {
     // TODO metodos
     // Already available: findAll()
     List<Dataset> findByLicense (String license);
+    List<Dataset> findByTitleContainingIgnoreCase (String title);
 }

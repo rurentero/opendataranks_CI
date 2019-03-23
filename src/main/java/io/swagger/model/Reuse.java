@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 public class Reuse   {
   @Id
   @JsonProperty("id")
-  private Long id = null;
+  private String id = null;
 
   @JsonProperty("title")
   private String title = null;
@@ -76,7 +76,7 @@ public class Reuse   {
   @JsonProperty("downloads")
   private Integer downloads = null;
 
-  public Reuse id(Long id) {
+  public Reuse id(String id) {
     this.id = id;
     return this;
   }
@@ -88,11 +88,11 @@ public class Reuse   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
