@@ -1,16 +1,16 @@
 package io.swagger.model;
 
+import java.util.List;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+
+import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -20,6 +20,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
+//@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@id")
 public class Reuse   {
   @Id
   @JsonProperty("id")
@@ -75,6 +76,19 @@ public class Reuse   {
 
   @JsonProperty("downloads")
   private Integer downloads = null;
+
+  // TODO Relacion Many to Many con Dataset, aun sin getter/setter
+  // @JoinTable Already specified in Dataset
+  @ManyToMany(fetch = FetchType.LAZY,
+          cascade = {
+                  CascadeType.PERSIST,
+                  CascadeType.MERGE
+          },
+          mappedBy = "reuses")
+//  @JsonIgnore
+  @JsonProperty("datasets")
+  @JsonIgnoreProperties("reuses")
+  private List<Dataset> datasets = null;
 
   public Reuse id(String id) {
     this.id = id;

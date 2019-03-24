@@ -1,15 +1,16 @@
 package io.swagger.model;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+
+import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -19,7 +20,8 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
-public class Dataset   {
+//@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@id")
+public class Dataset implements Serializable {
   @Id
   @JsonProperty("id")
   private String id = null;
@@ -56,6 +58,25 @@ public class Dataset   {
 
   @JsonProperty("license")
   private String license = null;
+
+  //TODO Relacion Many To Many con Reuse, aun sin getter/setter
+//  @JsonInclude()
+//  @Transient
+//  private List<String> reuse_ids = null;
+
+  @ManyToMany(fetch = FetchType.LAZY,
+          cascade = {
+                  CascadeType.PERSIST,
+                  CascadeType.MERGE
+          })
+  @JoinTable(name="dataset_reuse",
+          joinColumns = { @JoinColumn(name = "id_dataset", referencedColumnName = "id") },
+          inverseJoinColumns = { @JoinColumn(name = "id_reuse", referencedColumnName = "id") })
+//  @JsonIgnore
+  @JsonProperty("reuses")               // Indica que habrá una propiedad "reuses"
+  @JsonIgnoreProperties("datasets")     // Para cada Reuse recuperado en la lista, ignoraremos su lista de datasets, evitando el bucle infinito
+  private List<Reuse> reuses = null;
+
 
   public Dataset id(String id) {
     this.id = id;
