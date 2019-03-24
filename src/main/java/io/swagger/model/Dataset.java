@@ -59,7 +59,7 @@ public class Dataset implements Serializable {
   @JsonProperty("license")
   private String license = null;
 
-  //TODO Relacion Many To Many con Reuse, aun sin getter/setter
+  //TODO Relacion Many To Many con Reuse implementada, ver como evoluciona. Aun sin getter/setter
 //  @JsonInclude()
 //  @Transient
 //  private List<String> reuse_ids = null;

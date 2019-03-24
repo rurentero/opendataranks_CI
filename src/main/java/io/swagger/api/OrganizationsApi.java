@@ -44,7 +44,7 @@ public interface OrganizationsApi {
     @RequestMapping(value = "/organizations/findByName",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Reuse>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<List<Organization>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
 
 
     @ApiOperation(value = "Find by tags", nickname = "getAllOrganizationsByTags", notes = "Returns all organizations in database that matchs a list of tags ", response = Organization.class, responseContainer = "List", tags={  })

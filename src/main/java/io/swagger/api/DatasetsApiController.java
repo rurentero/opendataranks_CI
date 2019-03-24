@@ -44,14 +44,12 @@ public class DatasetsApiController implements DatasetsApi {
 
     public ResponseEntity<List<Dataset>> getAllDatasets(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         List<Dataset> datasets = datasetRepository.findAll();
         return new ResponseEntity<List<Dataset>>(datasets, HttpStatus.OK);
     }
 
     public ResponseEntity<List<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license tyoe of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         log.info("Parametro license: " + license);
         if(license==null){
             return new ResponseEntity<List<Dataset>>(HttpStatus.BAD_REQUEST);
@@ -63,7 +61,6 @@ public class DatasetsApiController implements DatasetsApi {
 
     public ResponseEntity<List<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         log.info("Parametro name: " + name);
         if(name==null){
             return new ResponseEntity<List<Dataset>>(HttpStatus.BAD_REQUEST);
@@ -87,10 +84,9 @@ public class DatasetsApiController implements DatasetsApi {
 
     public ResponseEntity<Dataset> getDatasetById(@ApiParam(value = "pass the dataset id to return its properties",required=true) @PathVariable("datasetId") String datasetId) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         if(datasetId==null)
             return new ResponseEntity<Dataset>(HttpStatus.BAD_REQUEST);
-        Dataset dataset = datasetRepository.findById(datasetId);
+        Dataset dataset = datasetRepository.findOne(datasetId);
         if(dataset==null)
             return new ResponseEntity<Dataset>(dataset, HttpStatus.NOT_FOUND);
         else

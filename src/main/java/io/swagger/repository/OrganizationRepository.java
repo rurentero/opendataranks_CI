@@ -1,12 +1,13 @@
 package io.swagger.repository;
 
-import io.swagger.model.Reuse;
+import io.swagger.model.Organization;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ReuseRepository extends JpaRepository<Reuse, String> {
+public interface OrganizationRepository extends JpaRepository<Organization,String> {
     // Already available:   findAll()
     //                      findById()
-    List<Reuse> findByTitleContainingIgnoreCase (String title);
+    List<Organization> findByTitleContainingIgnoreCase (String title);
+
 }

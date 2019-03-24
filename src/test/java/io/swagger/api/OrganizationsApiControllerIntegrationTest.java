@@ -35,7 +35,7 @@ public class OrganizationsApiControllerIntegrationTest {
         String name = "name_example";
         Integer skip = 56;
         Integer limit = 56;
-        ResponseEntity<List<Reuse>> responseEntity = api.getAllOrganizationsByName(name, skip, limit);
+        ResponseEntity<List<Organization>> responseEntity = api.getAllOrganizationsByName(name, skip, limit);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 

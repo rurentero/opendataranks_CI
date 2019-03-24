@@ -44,14 +44,12 @@ public class ReusesApiController implements ReusesApi {
 
     public ResponseEntity<List<Reuse>> getAllReuses(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         List<Reuse> reuses = reuseRepository.findAll();
         return new ResponseEntity<List<Reuse>>(reuses, HttpStatus.OK);
     }
 
     public ResponseEntity<List<Reuse>> getAllReusesByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         log.info("Parametro name: " + name);
         if(name==null){
             return new ResponseEntity<List<Reuse>>(HttpStatus.BAD_REQUEST);
@@ -75,10 +73,9 @@ public class ReusesApiController implements ReusesApi {
 
     public ResponseEntity<Reuse> getReuseById(@ApiParam(value = "pass the reuse id to return its properties",required=true) @PathVariable("reuseId") String reuseId) {
         String accept = request.getHeader("Accept");
-        // TODO Revisar
         if(reuseId==null)
             return new ResponseEntity<Reuse>(HttpStatus.BAD_REQUEST);
-        Reuse reuse = reuseRepository.findById(reuseId);
+        Reuse reuse = reuseRepository.findOne(reuseId);
         if(reuse==null)
             return new ResponseEntity<Reuse>(reuse, HttpStatus.NOT_FOUND);
         else

@@ -77,7 +77,7 @@ public class Reuse   {
   @JsonProperty("downloads")
   private Integer downloads = null;
 
-  // TODO Relacion Many to Many con Dataset, aun sin getter/setter
+  // TODO Relacion Many to Many con Dataset implementada, ver como evoluciona. Aun sin getter/setter
   // @JoinTable Already specified in Dataset
   @ManyToMany(fetch = FetchType.LAZY,
           cascade = {
