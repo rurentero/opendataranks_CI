@@ -1,6 +1,11 @@
 package io.swagger.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -8,8 +13,10 @@ import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -19,7 +26,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
-public class Organization   {
+public class Organization implements Serializable {
   @Id
   @JsonProperty("id")
   private String id = null;
@@ -53,6 +60,15 @@ public class Organization   {
 
   @JsonProperty("datasets_num")
   private Integer datasetsNum = null;
+
+  // TODO OneToMany con Dataset
+  @OneToMany(
+          mappedBy = "organization",
+          cascade = CascadeType.ALL
+  )
+  @JsonProperty("datasets")
+  @JsonIgnoreProperties({"organization", "reuses"})
+  private List<Dataset> datasets = new ArrayList<>();
 
   public Organization id(String id) {
     this.id = id;
@@ -266,6 +282,14 @@ public class Organization   {
   public void setDatasetsNum(Integer datasetsNum) {
     this.datasetsNum = datasetsNum;
   }
+
+  /**
+   * Get datasets
+   * @return datasets
+   **/
+  public List<Dataset> getDatasets() { return datasets; }
+
+  public void setDatasets(List<Dataset> datasets) { this.datasets = datasets; }
 
 
   @Override

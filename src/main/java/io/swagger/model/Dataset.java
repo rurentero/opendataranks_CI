@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,7 +60,14 @@ public class Dataset implements Serializable {
   @JsonProperty("license")
   private String license = null;
 
-  //TODO Relacion Many To Many con Reuse implementada, ver como evoluciona. Aun sin getter/setter
+  // TODO ManyToOne con organization.
+  @ManyToOne
+  @JoinColumn(name = "organization_id")
+  @JsonProperty("organization")
+  @JsonIgnoreProperties("datasets")
+  private Organization organization;
+
+  //TODO Relacion Many To Many con Reuse implementada, ver como evoluciona.
 //  @JsonInclude()
 //  @Transient
 //  private List<String> reuse_ids = null;
@@ -72,10 +80,9 @@ public class Dataset implements Serializable {
   @JoinTable(name="dataset_reuse",
           joinColumns = { @JoinColumn(name = "id_dataset", referencedColumnName = "id") },
           inverseJoinColumns = { @JoinColumn(name = "id_reuse", referencedColumnName = "id") })
-//  @JsonIgnore
-  @JsonProperty("reuses")               // Indica que habrá una propiedad "reuses"
-  @JsonIgnoreProperties("datasets")     // Para cada Reuse recuperado en la lista, ignoraremos su lista de datasets, evitando el bucle infinito
-  private List<Reuse> reuses = null;
+  @JsonProperty("reuses")
+  @JsonIgnoreProperties("datasets")
+  private List<Reuse> reuses = new ArrayList<>();
 
 
   public Dataset id(String id) {
@@ -309,6 +316,23 @@ public class Dataset implements Serializable {
   public void setLicense(String license) {
     this.license = license;
   }
+
+
+  /**
+   * Get organization
+   * @return organization
+   **/
+  public Organization getOrganization() { return organization; }
+
+  public void setOrganization(Organization organization) { this.organization = organization; }
+
+  /**
+   * Get reuses
+   * @return reuses
+   **/
+  public List<Reuse> getReuses() { return reuses; }
+
+  public void setReuses(List<Reuse> reuses) { this.reuses = reuses; }
 
 
   @Override

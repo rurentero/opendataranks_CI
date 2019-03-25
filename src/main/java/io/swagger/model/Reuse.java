@@ -1,5 +1,7 @@
 package io.swagger.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +23,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
 //@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@id")
-public class Reuse   {
+public class Reuse implements Serializable {
   @Id
   @JsonProperty("id")
   private String id = null;
@@ -77,18 +79,16 @@ public class Reuse   {
   @JsonProperty("downloads")
   private Integer downloads = null;
 
-  // TODO Relacion Many to Many con Dataset implementada, ver como evoluciona. Aun sin getter/setter
-  // @JoinTable Already specified in Dataset
+  // TODO Relacion Many to Many con Dataset implementada, ver como evoluciona.
   @ManyToMany(fetch = FetchType.LAZY,
           cascade = {
                   CascadeType.PERSIST,
                   CascadeType.MERGE
           },
           mappedBy = "reuses")
-//  @JsonIgnore
   @JsonProperty("datasets")
   @JsonIgnoreProperties("reuses")
-  private List<Dataset> datasets = null;
+  private List<Dataset> datasets = new ArrayList<>();
 
   public Reuse id(String id) {
     this.id = id;
@@ -442,6 +442,13 @@ public class Reuse   {
     this.downloads = downloads;
   }
 
+  /**
+   * Get datasets
+   * @return datasets
+   **/
+  public List<Dataset> getDatasets() { return datasets; }
+
+  public void setDatasets(List<Dataset> datasets) { this.datasets = datasets; }
 
   @Override
   public boolean equals(java.lang.Object o) {
