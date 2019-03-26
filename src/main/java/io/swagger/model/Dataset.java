@@ -21,7 +21,6 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
-//@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@id")
 public class Dataset implements Serializable {
   @Id
   @JsonProperty("id")
@@ -60,11 +59,10 @@ public class Dataset implements Serializable {
   @JsonProperty("license")
   private String license = null;
 
-  // TODO ManyToOne con organization.
   @ManyToOne
   @JoinColumn(name = "organization_id")
   @JsonProperty("organization")
-  @JsonIgnoreProperties("datasets")
+  @JsonIgnoreProperties({"datasets", "reuses"})
   private Organization organization;
 
   //TODO Relacion Many To Many con Reuse implementada, ver como evoluciona.
@@ -81,7 +79,7 @@ public class Dataset implements Serializable {
           joinColumns = { @JoinColumn(name = "id_dataset", referencedColumnName = "id") },
           inverseJoinColumns = { @JoinColumn(name = "id_reuse", referencedColumnName = "id") })
   @JsonProperty("reuses")
-  @JsonIgnoreProperties("datasets")
+  @JsonIgnoreProperties({"datasets","organization"})
   private List<Reuse> reuses = new ArrayList<>();
 
 

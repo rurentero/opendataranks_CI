@@ -61,8 +61,12 @@ public class ReusesApiController implements ReusesApi {
 
     public ResponseEntity<List<Reuse>> getAllReusesByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        //TODO Completar tras indicar las relaciones de entidades con Organization
-        return new ResponseEntity<List<Reuse>>(HttpStatus.NOT_IMPLEMENTED);
+        if(name==null){
+            return new ResponseEntity<List<Reuse>>(HttpStatus.BAD_REQUEST);
+        }else {
+            List<Reuse> reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCase(name);
+            return new ResponseEntity<List<Reuse>>(reuses, HttpStatus.OK);
+        }
     }
 
     public ResponseEntity<List<Reuse>> getAllReusesByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {

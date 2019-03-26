@@ -9,4 +9,5 @@ public interface ReuseRepository extends JpaRepository<Reuse, String> {
     // Already available:   findAll()
     //                      findById()
     List<Reuse> findByTitleContainingIgnoreCase (String title);
+    List<Reuse> findByOrganizationTitleContainingIgnoreCase(String organizationTitle);
 }

@@ -61,7 +61,6 @@ public class Organization implements Serializable {
   @JsonProperty("datasets_num")
   private Integer datasetsNum = null;
 
-  // TODO OneToMany con Dataset
   @OneToMany(
           mappedBy = "organization",
           cascade = CascadeType.ALL
@@ -69,6 +68,14 @@ public class Organization implements Serializable {
   @JsonProperty("datasets")
   @JsonIgnoreProperties({"organization", "reuses"})
   private List<Dataset> datasets = new ArrayList<>();
+
+  @OneToMany(
+          mappedBy = "organization",
+          cascade = CascadeType.ALL
+  )
+  @JsonProperty("reuses")
+  @JsonIgnoreProperties({"organization", "datasets"})
+  private List<Reuse> reuses = new ArrayList<>();
 
   public Organization id(String id) {
     this.id = id;
@@ -291,8 +298,15 @@ public class Organization implements Serializable {
 
   public void setDatasets(List<Dataset> datasets) { this.datasets = datasets; }
 
+  /**
+   * Get reuses
+   * @return reuses
+   **/
+  public List<Reuse> getReuses() { return reuses; }
 
-  @Override
+  public void setReuses(List<Reuse> reuses) { this.reuses = reuses; }
+
+    @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;

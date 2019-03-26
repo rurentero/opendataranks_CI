@@ -10,4 +10,5 @@ public interface DatasetRepository extends JpaRepository<Dataset, String> {
     //                      findById()
     List<Dataset> findByLicense (String license);
     List<Dataset> findByTitleContainingIgnoreCase (String title);
+    List<Dataset> findByOrganizationTitleContainingIgnoreCase (String organizationTitle);
 }

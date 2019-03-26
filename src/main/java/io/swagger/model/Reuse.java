@@ -22,7 +22,6 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
-//@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@id")
 public class Reuse implements Serializable {
   @Id
   @JsonProperty("id")
@@ -79,6 +78,12 @@ public class Reuse implements Serializable {
   @JsonProperty("downloads")
   private Integer downloads = null;
 
+  @ManyToOne
+  @JoinColumn(name = "organization_id")
+  @JsonProperty("organization")
+  @JsonIgnoreProperties({"datasets","reuses"})
+  private Organization organization;
+
   // TODO Relacion Many to Many con Dataset implementada, ver como evoluciona.
   @ManyToMany(fetch = FetchType.LAZY,
           cascade = {
@@ -87,7 +92,7 @@ public class Reuse implements Serializable {
           },
           mappedBy = "reuses")
   @JsonProperty("datasets")
-  @JsonIgnoreProperties("reuses")
+  @JsonIgnoreProperties({"reuses","organization"})
   private List<Dataset> datasets = new ArrayList<>();
 
   public Reuse id(String id) {
@@ -449,6 +454,14 @@ public class Reuse implements Serializable {
   public List<Dataset> getDatasets() { return datasets; }
 
   public void setDatasets(List<Dataset> datasets) { this.datasets = datasets; }
+
+  /**
+   * Get organization
+   * @return organization
+   **/
+  public Organization getOrganization() { return organization; }
+
+  public void setOrganization(Organization organization) { this.organization = organization; }
 
   @Override
   public boolean equals(java.lang.Object o) {
