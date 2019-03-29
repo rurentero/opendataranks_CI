@@ -92,8 +92,20 @@ public class Reuse implements Serializable {
           },
           mappedBy = "reuses")
   @JsonProperty("datasets")
-  @JsonIgnoreProperties({"reuses","organization"})
+  @JsonIgnoreProperties({"reuses","organization","tags"})
   private List<Dataset> datasets = new ArrayList<>();
+
+  @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+        })
+  @JoinTable(name = "reuse_tag",
+        joinColumns = { @JoinColumn(name = "id_reuse", referencedColumnName = "id") },
+        inverseJoinColumns = { @JoinColumn(name = "id_tag", referencedColumnName = "id") })
+  @JsonIgnoreProperties({"datasets","reuses"})
+  private List<Tag> tags = new ArrayList<>();
+
 
   public Reuse id(String id) {
     this.id = id;
@@ -463,7 +475,17 @@ public class Reuse implements Serializable {
 
   public void setOrganization(Organization organization) { this.organization = organization; }
 
-  @Override
+  /**
+   * Get tags
+   * @return tags
+   **/
+  public List<Tag> getTags() { return tags; }
+
+  public void setTags(List<Tag> tags) { this.tags = tags; }
+
+
+
+    @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;

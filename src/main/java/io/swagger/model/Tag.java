@@ -1,15 +1,15 @@
 package io.swagger.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.validation.Valid;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
@@ -17,14 +17,35 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
+@Entity
 public class Tag   {
+  @Id
   @JsonProperty("id")
-  private Long id = null;
+  private String id = null;
 
   @JsonProperty("name")
   private String name = null;
 
-  public Tag id(Long id) {
+  @ManyToMany(fetch = FetchType.LAZY,
+          cascade = {
+                  CascadeType.PERSIST,
+                  CascadeType.MERGE
+          }, mappedBy = "tags")
+  @JsonProperty("reuses")
+  @JsonIgnoreProperties({"datasets","organization","tags"})
+  private List<Reuse> reuses = new ArrayList<>();
+
+  @ManyToMany(fetch = FetchType.LAZY,
+          cascade = {
+                  CascadeType.PERSIST,
+                  CascadeType.MERGE
+          }, mappedBy = "tags")
+  @JsonProperty("datasets")
+  @JsonIgnoreProperties({"reuses","organization","tags"})
+  private List<Reuse> datasets = new ArrayList<>();
+
+
+  public Tag id(String id) {
     this.id = id;
     return this;
   }
@@ -36,11 +57,11 @@ public class Tag   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -63,6 +84,23 @@ public class Tag   {
   public void setName(String name) {
     this.name = name;
   }
+
+
+  /**
+   * Get reuses
+   * @return reuses
+   **/
+  public List<Reuse> getReuses() { return reuses; }
+
+  public void setReuses(List<Reuse> reuses) { this.reuses = reuses; }
+
+  /**
+   * Get datasets
+   * @return datasets
+   **/
+  public List<Reuse> getDatasets() { return datasets; }
+
+  public void setDatasets(List<Reuse> datasets) { this.datasets = datasets; }
 
 
   @Override

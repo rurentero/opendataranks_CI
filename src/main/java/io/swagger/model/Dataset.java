@@ -79,8 +79,19 @@ public class Dataset implements Serializable {
           joinColumns = { @JoinColumn(name = "id_dataset", referencedColumnName = "id") },
           inverseJoinColumns = { @JoinColumn(name = "id_reuse", referencedColumnName = "id") })
   @JsonProperty("reuses")
-  @JsonIgnoreProperties({"datasets","organization"})
+  @JsonIgnoreProperties({"datasets","organization","tags"})
   private List<Reuse> reuses = new ArrayList<>();
+
+  @ManyToMany(fetch = FetchType.LAZY,
+          cascade = {
+                  CascadeType.PERSIST,
+                  CascadeType.MERGE
+          })
+  @JoinTable(name = "dataset_tag",
+          joinColumns = { @JoinColumn(name = "id_dataset", referencedColumnName = "id") },
+          inverseJoinColumns = { @JoinColumn(name = "id_tag", referencedColumnName = "id") })
+  @JsonIgnoreProperties({"datasets","reuses"})
+  private List<Tag> tags = new ArrayList<>();
 
 
   public Dataset id(String id) {
@@ -331,6 +342,14 @@ public class Dataset implements Serializable {
   public List<Reuse> getReuses() { return reuses; }
 
   public void setReuses(List<Reuse> reuses) { this.reuses = reuses; }
+
+  /**
+   * Get tags
+   * @return tags
+   **/
+  public List<Tag> getTags() { return tags; }
+
+  public void setTags(List<Tag> tags) { this.tags = tags; }
 
 
   @Override

@@ -61,7 +61,7 @@ public class OrganizationsApiController implements OrganizationsApi {
 
     public ResponseEntity<List<Organization>> getAllOrganizationsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
-        //TODO Completar tras indicar las relaciones de entidades con Tag
+        //It won't be implemented.
         return new ResponseEntity<List<Organization>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
