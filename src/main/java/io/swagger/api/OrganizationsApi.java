@@ -8,6 +8,9 @@ package io.swagger.api;
 import io.swagger.model.Organization;
 import io.swagger.model.Reuse;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +37,7 @@ public interface OrganizationsApi {
     @RequestMapping(value = "/organizations",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Organization>> getAllOrganizations(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Organization>> getAllOrganizations(Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by name", nickname = "getAllOrganizationsByName", notes = "Returns all organizations in database that matchs a name ", response = Reuse.class, responseContainer = "List", tags={  })
@@ -44,7 +47,7 @@ public interface OrganizationsApi {
     @RequestMapping(value = "/organizations/findByName",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Organization>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Organization>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by tags", nickname = "getAllOrganizationsByTags", notes = "Returns all organizations in database that matchs a list of tags ", response = Organization.class, responseContainer = "List", tags={  })
@@ -54,7 +57,7 @@ public interface OrganizationsApi {
     @RequestMapping(value = "/organizations/findByTags",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Organization>> getAllOrganizationsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Organization>> getAllOrganizationsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Get organization by id", nickname = "getOrganizationById", notes = "Returns an specific organization ", response = Organization.class, tags={  })

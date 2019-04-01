@@ -7,6 +7,9 @@ package io.swagger.api;
 
 import io.swagger.model.Dataset;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +36,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Dataset>> getAllDatasets(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasets(Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by license", nickname = "getAllDatasetsByLicense", notes = "Returns all datasets in database that matchs a license type ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -43,7 +46,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByLicense",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license tyoe of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license tyoe of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by name", nickname = "getAllDatasetsByName", notes = "Returns all datasets in database that matchs a name ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -53,7 +56,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByName",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by organization", nickname = "getAllDatasetsByOrganization", notes = "Returns all datasets in database that matchs an organization ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -63,7 +66,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByOrganization",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by tags", nickname = "getAllDatasetsByTags", notes = "Returns all datasets in database that matchs a list of tags ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -73,7 +76,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByTags",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Get dataset by id", nickname = "getDatasetById", notes = "Returns an specific dataset ", response = Dataset.class, tags={  })

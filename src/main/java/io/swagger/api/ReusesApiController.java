@@ -7,6 +7,10 @@ import io.swagger.repository.ReuseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Controller
 public class ReusesApiController implements ReusesApi {
@@ -42,40 +50,45 @@ public class ReusesApiController implements ReusesApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<Reuse>> getAllReuses(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<PagedResources<Reuse>> getAllReuses(Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        List<Reuse> reuses = reuseRepository.findAll();
-        return new ResponseEntity<List<Reuse>>(reuses, HttpStatus.OK);
+        Page<Reuse> reuses = reuseRepository.findAll(pageable);
+        PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(ReusesApiController.class).slash("/reuses").withSelfRel());
+        return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Reuse>> getAllReusesByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<PagedResources<Reuse>> getAllReusesByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         log.info("Parametro name: " + name);
         if(name==null){
-            return new ResponseEntity<List<Reuse>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
         }else{
-            List<Reuse> reuses = reuseRepository.findByTitleContainingIgnoreCase(name);
-            return new ResponseEntity<List<Reuse>>(reuses, HttpStatus.OK);
+            Page<Reuse> reuses = reuseRepository.findByTitleContainingIgnoreCase(name, pageable);
+            PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(methodOn(ReusesApiController.class).getAllReusesByName(name, pageable, assembler)).withSelfRel());
+            return new ResponseEntity (pr, HttpStatus.OK);
         }
     }
 
-    public ResponseEntity<List<Reuse>> getAllReusesByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<PagedResources<Reuse>> getAllReusesByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         if(name==null){
-            return new ResponseEntity<List<Reuse>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
         }else {
-            List<Reuse> reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCase(name);
-            return new ResponseEntity<List<Reuse>>(reuses, HttpStatus.OK);
+            Page<Reuse> reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCase(name, pageable);
+            PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(methodOn(ReusesApiController.class).getAllReusesByOrganization(name, pageable, assembler)).withSelfRel());
+            return new ResponseEntity (pr, HttpStatus.OK);
         }
     }
 
-    public ResponseEntity<List<Reuse>> getAllReusesByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+
+    public ResponseEntity<PagedResources<Reuse>> getAllReusesByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         if(tags.isEmpty()){
-            return new ResponseEntity<List<Reuse>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
         }else {
-            List<Reuse> reuses = reuseRepository.findDistinctByTagsNameIgnoreCaseIn(tags);
-            return new ResponseEntity<List<Reuse>>(reuses, HttpStatus.OK);
+            Page<Reuse> reuses = reuseRepository.findDistinctByTagsNameIgnoreCaseIn(tags, pageable);
+            PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(methodOn(ReusesApiController.class).getAllReusesByTags(tags, pageable, assembler)).withSelfRel());
+            return new ResponseEntity (pr, HttpStatus.OK);
         }
     }
 

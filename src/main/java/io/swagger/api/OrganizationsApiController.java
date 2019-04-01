@@ -7,6 +7,10 @@ import io.swagger.repository.OrganizationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Controller
 public class OrganizationsApiController implements OrganizationsApi {
@@ -42,27 +50,32 @@ public class OrganizationsApiController implements OrganizationsApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<Organization>> getAllOrganizations(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+
+    public ResponseEntity<PagedResources<Organization>> getAllOrganizations(Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        List<Organization> organizations = organizationRepository.findAll();
-        return new ResponseEntity<List<Organization>>(organizations, HttpStatus.OK);
+        Page<Organization> organizations = organizationRepository.findAll(pageable);
+        PagedResources<Organization> pr = assembler.toResource(organizations,linkTo(methodOn(OrganizationsApiController.class).getAllOrganizations(pageable, assembler)).withSelfRel());
+        return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Organization>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+
+    public ResponseEntity<PagedResources<Organization>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         log.info("Parametro name: " + name);
         if(name==null){
-            return new ResponseEntity<List<Organization>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
         }else{
-            List<Organization> organizations = organizationRepository.findByTitleContainingIgnoreCase(name);
-            return new ResponseEntity<List<Organization>>(organizations, HttpStatus.OK);
+            Page<Organization> organizations = organizationRepository.findByTitleContainingIgnoreCase(name, pageable);
+            PagedResources<Organization> pr = assembler.toResource(organizations,linkTo(methodOn(OrganizationsApiController.class).getAllOrganizationsByName(name, pageable, assembler)).withSelfRel());
+            return new ResponseEntity (pr, HttpStatus.OK);
         }
     }
 
-    public ResponseEntity<List<Organization>> getAllOrganizationsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    // It won't be implemented.
+    public ResponseEntity<PagedResources<Organization>> getAllOrganizationsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         //It won't be implemented.
-        return new ResponseEntity<List<Organization>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity (HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Organization> getOrganizationById(@ApiParam(value = "pass the organization id to return its properties",required=true) @PathVariable("organizationId") String organizationId) {

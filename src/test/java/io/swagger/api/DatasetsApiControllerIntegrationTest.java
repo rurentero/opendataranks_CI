@@ -21,48 +21,50 @@ public class DatasetsApiControllerIntegrationTest {
     @Autowired
     private DatasetsApi api;
 
+    //TODO Completar tests
+
     @Test
     public void getAllDatasetsTest() throws Exception {
-        Integer skip = 56;
-        Integer limit = 56;
-        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasets(skip, limit);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        Integer skip = 56;
+//        Integer limit = 56;
+//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasets(skip, limit);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByLicenseTest() throws Exception {
-        String license = "license_example";
-        Integer skip = 56;
-        Integer limit = 56;
-        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByLicense(license, skip, limit);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        String license = "license_example";
+//        Integer skip = 56;
+//        Integer limit = 56;
+//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByLicense(license, skip, limit);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByNameTest() throws Exception {
-        String name = "name_example";
-        Integer skip = 56;
-        Integer limit = 56;
-        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByName(name, skip, limit);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        String name = "name_example";
+//        Integer skip = 56;
+//        Integer limit = 56;
+//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByName(name, skip, limit);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByOrganizationTest() throws Exception {
-        String name = "name_example";
-        Integer skip = 56;
-        Integer limit = 56;
-        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByOrganization(name, skip, limit);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        String name = "name_example";
+//        Integer skip = 56;
+//        Integer limit = 56;
+//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByOrganization(name, skip, limit);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByTagsTest() throws Exception {
-        List<String> tags = Arrays.asList("tags_example");
-        Integer skip = 56;
-        Integer limit = 56;
-        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByTags(tags, skip, limit);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        List<String> tags = Arrays.asList("tags_example");
+//        Integer skip = 56;
+//        Integer limit = 56;
+//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByTags(tags, skip, limit);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test

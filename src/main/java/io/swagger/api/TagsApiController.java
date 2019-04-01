@@ -37,6 +37,8 @@ public class TagsApiController implements TagsApi {
         this.request = request;
     }
 
+    // TODO Implementar metodos
+    // TODO Implementar paginacion
     public ResponseEntity<List<Tag>> getAllTags(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<List<Tag>>(HttpStatus.NOT_IMPLEMENTED);

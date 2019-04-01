@@ -8,6 +8,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.hateoas.ResourceSupport;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 
@@ -21,7 +22,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
-public class Dataset implements Serializable {
+public class Dataset implements Serializable  {
   @Id
   @JsonProperty("id")
   private String id = null;
@@ -105,7 +106,7 @@ public class Dataset implements Serializable {
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-
+  //TODO Probar a devolver un link al hacer el getId
   public String getId() {
     return id;
   }
