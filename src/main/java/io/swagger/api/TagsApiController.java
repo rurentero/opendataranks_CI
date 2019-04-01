@@ -3,8 +3,14 @@ package io.swagger.api;
 import io.swagger.model.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.repository.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Controller
 public class TagsApiController implements TagsApi {
@@ -31,17 +41,20 @@ public class TagsApiController implements TagsApi {
 
     private final HttpServletRequest request;
 
+    @Autowired
+    TagRepository tagRepository;
+
     @org.springframework.beans.factory.annotation.Autowired
     public TagsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
     }
 
-    // TODO Implementar metodos
-    // TODO Implementar paginacion
-    public ResponseEntity<List<Tag>> getAllTags(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<PagedResources<Tag>> getAllTags(Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<List<Tag>>(HttpStatus.NOT_IMPLEMENTED);
+        Page<Tag> reuses = tagRepository.findAll(pageable);
+        PagedResources<Tag> pr = assembler.toResource(reuses,linkTo(methodOn(TagsApiController.class).getAllTags(pageable, assembler)).withSelfRel());
+        return new ResponseEntity (pr, HttpStatus.OK);
     }
 
 }

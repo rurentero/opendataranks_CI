@@ -7,6 +7,9 @@ package io.swagger.api;
 
 import io.swagger.model.Tag;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +36,6 @@ public interface TagsApi {
     @RequestMapping(value = "/tags",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Tag>> getAllTags(@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<PagedResources<Tag>> getAllTags(Pageable pageable, PagedResourcesAssembler assembler);
 
 }
