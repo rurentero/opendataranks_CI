@@ -9,26 +9,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -48,6 +44,8 @@ public class DatasetsApiController implements DatasetsApi {
 
     @Autowired private EntityLinks links;
 
+    @Autowired private RepositoryEntityLinks repositoryEntityLinksinks;
+
     @org.springframework.beans.factory.annotation.Autowired
     public DatasetsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -59,6 +57,8 @@ public class DatasetsApiController implements DatasetsApi {
     public ResponseEntity<PagedResources<Dataset>> getAllDatasets(Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         Page<Dataset> datasets = datasetRepository.findAll(pageable);
+        //TODO Linea para añadir los links
+        //addCollectionLinks(datasets);
         PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(DatasetsApiController.class).slash("/datasets").withSelfRel());
         return new ResponseEntity (pr, HttpStatus.OK);
     }
@@ -121,6 +121,24 @@ public class DatasetsApiController implements DatasetsApi {
         else
             return new ResponseEntity<Dataset>(dataset, HttpStatus.OK);
     }
+
+    // TODO Intentos para la creacion de los links en las colecciones
+//    // Dado un dataset, añade un link
+//    private Resource<Dataset> addSelfLink(Dataset dataset) {
+//        Resource<Dataset> resource = new Resource<Dataset>(dataset);
+//        resource.add(linkTo(methodOn(DatasetsApiController.class).getDatasetById(dataset.getId())).withSelfRel());
+//        return resource;
+//
+//    }
+//
+//    // Metodo para poner todos los links a una coleccion
+//    private void addCollectionLinks(Page<Dataset> datasetPage) {
+//        if (!CollectionUtils.isEmpty(datasetPage.getContent())) {
+//            for (Dataset dataset : datasetPage) {
+//                addSelfLink(dataset);
+//            }
+//        }
+//    }
 
 //    private String createLinkHeader(PagedResources <Dataset> pr) {
 //        final StringBuilder linkHeader = new StringBuilder();

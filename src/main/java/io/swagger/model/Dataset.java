@@ -8,6 +8,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
@@ -107,6 +108,10 @@ public class Dataset implements Serializable  {
   @ApiModelProperty(required = true, value = "")
   @NotNull
   //TODO Probar a devolver un link al hacer el getId
+//  public Link getId() {
+//    return new Link(id);
+//  }
+
   public String getId() {
     return id;
   }
