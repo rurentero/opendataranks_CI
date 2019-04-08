@@ -51,10 +51,16 @@ INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VA
 INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R8', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
 INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R9', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
 INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R10', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
-INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R11', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
-INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R12', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
-INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R13', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
-INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R14', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
+
+-- Ponderaciones para la tabla Weight
+
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W1', '0.33', 'Balanceado', '0.33', '0.33');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W2', '1', 'Solo descargas', '0', '0');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W3', '0', 'Solo comentarios', '1', '0');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W4', '0', 'Solo puntuacion', '0', '1');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W5', '0.5', 'Descargas el doble', '0.25', '0.25');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W6', '0.25', 'Comentarios el doble', '0.5', '0.25');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W7', '0.25', 'Puntuacion el doble', '0.25', '0.5');
 
 
 -- Datos sobre las relaciones entre dataset_reuse
@@ -77,4 +83,20 @@ INSERT INTO `opendataranks_db`.`reuse_tag` (`id_reuse`, `id_tag`) VALUES ('R4', 
 INSERT INTO `opendataranks_db`.`reuse_tag` (`id_reuse`, `id_tag`) VALUES ('R1', 'T3');
 INSERT INTO `opendataranks_db`.`reuse_tag` (`id_reuse`, `id_tag`) VALUES ('R2', 'T1');
 INSERT INTO `opendataranks_db`.`reuse_tag` (`id_reuse`, `id_tag`) VALUES ('R3', 'T1');
+
+
+-- Puntuaciones manuales de prueba, al menos una por defecto para cada reuso
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('100', 'W2', 'R1');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('30', 'W3', 'R1');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('60', 'W4', 'R1');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('100', 'W1', 'R1');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('90', 'W1', 'R2');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('80', 'W1', 'R3');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('70', 'W1', 'R4');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('60', 'W1', 'R5');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('50', 'W1', 'R6');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('40', 'W1', 'R7');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('30', 'W1', 'R8');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('20', 'W1', 'R9');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('10', 'W1', 'R10');
 

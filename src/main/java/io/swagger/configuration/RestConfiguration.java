@@ -1,9 +1,6 @@
 package io.swagger.configuration;
 
-import io.swagger.model.Dataset;
-import io.swagger.model.Organization;
-import io.swagger.model.Reuse;
-import io.swagger.model.Tag;
+import io.swagger.model.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
@@ -19,6 +16,7 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
         config.exposeIdsFor(Reuse.class);
         config.exposeIdsFor(Tag.class);
         config.exposeIdsFor(Organization.class);
+        config.exposeIdsFor(Weight.class);
         // TODO Añadir las entidades que se vayan creando/implementando
     }
 }

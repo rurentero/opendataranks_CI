@@ -67,11 +67,6 @@ public class Dataset implements Serializable  {
   @JsonIgnoreProperties({"datasets", "reuses"})
   private Organization organization;
 
-  //TODO Relacion Many To Many con Reuse implementada, ver como evoluciona.
-//  @JsonInclude()
-//  @Transient
-//  private List<String> reuse_ids = null;
-
   @ManyToMany(fetch = FetchType.LAZY,
           cascade = {
                   CascadeType.PERSIST,
@@ -81,7 +76,7 @@ public class Dataset implements Serializable  {
           joinColumns = { @JoinColumn(name = "id_dataset", referencedColumnName = "id") },
           inverseJoinColumns = { @JoinColumn(name = "id_reuse", referencedColumnName = "id") })
   @JsonProperty("reuses")
-  @JsonIgnoreProperties({"datasets","organization","tags"})
+  @JsonIgnoreProperties({"datasets","organization","tags", "weightAssoc"})
   private List<Reuse> reuses = new ArrayList<>();
 
   @ManyToMany(fetch = FetchType.LAZY,
@@ -107,10 +102,6 @@ public class Dataset implements Serializable  {
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  //TODO Probar a devolver un link al hacer el getId
-//  public Link getId() {
-//    return new Link(id);
-//  }
 
   public String getId() {
     return id;

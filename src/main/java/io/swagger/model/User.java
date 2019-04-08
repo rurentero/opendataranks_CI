@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Weight;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -36,9 +35,6 @@ public class User   {
   @JsonProperty("role")
   private Integer role = null;
 
-  @JsonProperty("weights")
-  @Valid
-  private List<Weight> weights = null;
 
   public User id(Long id) {
     this.id = id;
@@ -140,34 +136,6 @@ public class User   {
     this.role = role;
   }
 
-  public User weights(List<Weight> weights) {
-    this.weights = weights;
-    return this;
-  }
-
-  public User addWeightsItem(Weight weightsItem) {
-    if (this.weights == null) {
-      this.weights = new ArrayList<Weight>();
-    }
-    this.weights.add(weightsItem);
-    return this;
-  }
-
-  /**
-   * Get weights
-   * @return weights
-  **/
-  @ApiModelProperty(value = "")
-  @Valid
-  public List<Weight> getWeights() {
-    return weights;
-  }
-
-  public void setWeights(List<Weight> weights) {
-    this.weights = weights;
-  }
-
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -181,13 +149,12 @@ public class User   {
         Objects.equals(this.username, user.username) &&
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.password, user.password) &&
-        Objects.equals(this.role, user.role) &&
-        Objects.equals(this.weights, user.weights);
+        Objects.equals(this.role, user.role);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, email, password, role, weights);
+    return Objects.hash(id, username, email, password, role);
   }
 
   @Override
@@ -200,7 +167,6 @@ public class User   {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    role: ").append(toIndentedString(role)).append("\n");
-    sb.append("    weights: ").append(toIndentedString(weights)).append("\n");
     sb.append("}");
     return sb.toString();
   }

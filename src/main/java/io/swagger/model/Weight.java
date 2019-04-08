@@ -1,15 +1,15 @@
 package io.swagger.model;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.Valid;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
 
 /**
@@ -18,21 +18,28 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Entity
-public class Weight   {
+public class Weight implements Serializable {
   @Id
   @JsonProperty("id")
-  private Long id = null;
+  private String id = null;
+
+  @JsonProperty("name")
+  private String name = null;
 
   @JsonProperty("reviews_num_val")
-  private Integer reviewsNumVal = null;
+  private Float reviewsNumVal = null;
 
   @JsonProperty("score_val")
-  private Integer scoreVal = null;
+  private Float scoreVal = null;
 
   @JsonProperty("downloads_val")
-  private Integer downloadsVal = null;
+  private Float downloadsVal = null;
 
-  public Weight id(Long id) {
+  @OneToMany(mappedBy = "weight")
+  private List<ReuseWeight> reuseAssoc;
+
+
+  public Weight id(String id) {
     this.id = id;
     return this;
   }
@@ -44,15 +51,31 @@ public class Weight   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Long getId() {
+
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public Weight reviewsNumVal(Integer reviewsNumVal) {
+
+  /**
+   * Get name
+   * @return name
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Weight reviewsNumVal(Float reviewsNumVal) {
     this.reviewsNumVal = reviewsNumVal;
     return this;
   }
@@ -64,15 +87,15 @@ public class Weight   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Integer getReviewsNumVal() {
+  public Float getReviewsNumVal() {
     return reviewsNumVal;
   }
 
-  public void setReviewsNumVal(Integer reviewsNumVal) {
+  public void setReviewsNumVal(Float reviewsNumVal) {
     this.reviewsNumVal = reviewsNumVal;
   }
 
-  public Weight scoreVal(Integer scoreVal) {
+  public Weight scoreVal(Float scoreVal) {
     this.scoreVal = scoreVal;
     return this;
   }
@@ -83,15 +106,15 @@ public class Weight   {
   **/
   @ApiModelProperty(value = "")
 
-  public Integer getScoreVal() {
+  public Float getScoreVal() {
     return scoreVal;
   }
 
-  public void setScoreVal(Integer scoreVal) {
+  public void setScoreVal(Float scoreVal) {
     this.scoreVal = scoreVal;
   }
 
-  public Weight downloadsVal(Integer downloadsVal) {
+  public Weight downloadsVal(Float downloadsVal) {
     this.downloadsVal = downloadsVal;
     return this;
   }
@@ -103,13 +126,21 @@ public class Weight   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Integer getDownloadsVal() {
+  public Float getDownloadsVal() {
     return downloadsVal;
   }
 
-  public void setDownloadsVal(Integer downloadsVal) {
+  public void setDownloadsVal(Float downloadsVal) {
     this.downloadsVal = downloadsVal;
   }
+
+  /**
+   * Get reuseAssoc
+   * @return reuseAssoc
+   **/
+  public List<ReuseWeight> getReuseAssoc() { return reuseAssoc; }
+
+  public void setReuseAssoc(List<ReuseWeight> reuseAssoc) { this.reuseAssoc = reuseAssoc; }
 
 
   @Override

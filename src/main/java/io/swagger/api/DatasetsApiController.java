@@ -52,13 +52,9 @@ public class DatasetsApiController implements DatasetsApi {
         this.request = request;
     }
 
-    //TODO Probar si al aplicar methodOn (igual que en el resto) se recoge mejor la paginacion al pasar entre links
-
     public ResponseEntity<PagedResources<Dataset>> getAllDatasets(Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         Page<Dataset> datasets = datasetRepository.findAll(pageable);
-        //TODO Linea para añadir los links
-        //addCollectionLinks(datasets);
         PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(DatasetsApiController.class).slash("/datasets").withSelfRel());
         return new ResponseEntity (pr, HttpStatus.OK);
     }
@@ -121,35 +117,5 @@ public class DatasetsApiController implements DatasetsApi {
         else
             return new ResponseEntity<Dataset>(dataset, HttpStatus.OK);
     }
-
-    // TODO Intentos para la creacion de los links en las colecciones
-//    // Dado un dataset, añade un link
-//    private Resource<Dataset> addSelfLink(Dataset dataset) {
-//        Resource<Dataset> resource = new Resource<Dataset>(dataset);
-//        resource.add(linkTo(methodOn(DatasetsApiController.class).getDatasetById(dataset.getId())).withSelfRel());
-//        return resource;
-//
-//    }
-//
-//    // Metodo para poner todos los links a una coleccion
-//    private void addCollectionLinks(Page<Dataset> datasetPage) {
-//        if (!CollectionUtils.isEmpty(datasetPage.getContent())) {
-//            for (Dataset dataset : datasetPage) {
-//                addSelfLink(dataset);
-//            }
-//        }
-//    }
-
-//    private String createLinkHeader(PagedResources <Dataset> pr) {
-//        final StringBuilder linkHeader = new StringBuilder();
-//        linkHeader.append(buildLinkHeader(pr.getLink("first").getHref(), "first"));
-//        linkHeader.append(", ");
-//        linkHeader.append(buildLinkHeader(pr.getLink("next").getHref(), "next"));
-//        return linkHeader.toString();
-//    }
-//
-//    public static String buildLinkHeader(final String uri, final String rel) {
-//        return "<" + uri + ">; rel=\"" + rel + "\"";
-//    }
 
 }

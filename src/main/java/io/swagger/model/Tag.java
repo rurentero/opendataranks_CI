@@ -41,7 +41,7 @@ public class Tag   {
                   CascadeType.MERGE
           }, mappedBy = "tags")
   @JsonProperty("datasets")
-  @JsonIgnoreProperties({"reuses","organization","tags"})
+  @JsonIgnoreProperties({"reuses","organization","tags", "weightAssoc"})
   private List<Reuse> datasets = new ArrayList<>();
 
 

@@ -84,7 +84,6 @@ public class Reuse implements Serializable {
   @JsonIgnoreProperties({"datasets","reuses"})
   private Organization organization;
 
-  // TODO Relacion Many to Many con Dataset implementada, ver como evoluciona.
   @ManyToMany(fetch = FetchType.LAZY,
           cascade = {
                   CascadeType.PERSIST,
@@ -106,6 +105,9 @@ public class Reuse implements Serializable {
   @JsonIgnoreProperties({"datasets","reuses"})
   private List<Tag> tags = new ArrayList<>();
 
+  @OneToMany(mappedBy = "reuse")
+  // TODO Valorar si se mostrará al usuario el valor calculado por el portal @JsonProperty("weights")
+  private List<ReuseWeight> weightAssoc;
 
   public Reuse id(String id) {
     this.id = id;
@@ -483,9 +485,17 @@ public class Reuse implements Serializable {
 
   public void setTags(List<Tag> tags) { this.tags = tags; }
 
+  /**
+   * Get weightAssoc
+   * @return weightAssoc
+   **/
+  public List<ReuseWeight> getWeightAssoc() { return weightAssoc; }
+
+  public void setWeightAssoc(List<ReuseWeight> weightAssoc) { this.weightAssoc = weightAssoc; }
 
 
-    @Override
+
+  @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
