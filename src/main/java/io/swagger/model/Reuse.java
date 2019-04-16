@@ -105,9 +105,12 @@ public class Reuse implements Serializable {
   @JsonIgnoreProperties({"datasets","reuses"})
   private List<Tag> tags = new ArrayList<>();
 
-  @OneToMany(mappedBy = "reuse")
+
   // TODO Valorar si se mostrará al usuario el valor calculado por el portal @JsonProperty("weights")
-  private List<ReuseWeight> weightAssoc;
+  // TODO @JsonIgnore para quitar totalmente esta propiedad de los JSON. Sale tanto al recuperar una coleccion como si es una sola mediante Id, ya que se hace referencia directa en el repo (no como con el resto de listas)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "reuse")
+  @JsonProperty("weights")
+  private List<ReuseWeight> weightAssoc = new ArrayList<>();
 
   public Reuse id(String id) {
     this.id = id;

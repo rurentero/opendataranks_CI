@@ -5,6 +5,7 @@
  */
 package io.swagger.api;
 
+import io.swagger.helpers.RankingParams;
 import io.swagger.model.Reuse;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ public interface ReusesApi {
     @RequestMapping(value = "/reuses",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Reuse>> getAllReuses(Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by name", nickname = "getAllReusesByName", notes = "Returns all reuses in database that matchs a name ", response = Reuse.class, responseContainer = "List", tags={  })

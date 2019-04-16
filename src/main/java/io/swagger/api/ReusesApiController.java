@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import io.swagger.helpers.RankingParams;
 import io.swagger.model.Reuse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -15,18 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -50,10 +45,44 @@ public class ReusesApiController implements ReusesApi {
         this.request = request;
     }
 
-    public ResponseEntity<PagedResources<Reuse>> getAllReuses(Pageable pageable, PagedResourcesAssembler assembler) {
+    // TODO Probar si se puede recuperar de la request un RankingParams
+    public ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        Page<Reuse> reuses = reuseRepository.findAll(pageable);
-        PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(ReusesApiController.class).slash("/reuses").withSelfRel());
+        // TODO Código original del método, dejarlo activo tras las pruebas de ponderaciones.
+//        Page<Reuse> reuses = reuseRepository.findAll(pageable);
+//        PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(ReusesApiController.class).slash("/reuses").withSelfRel());
+//        return new ResponseEntity (pr, HttpStatus.OK);
+        // TODO Cambios necesarios para que el sistema de puntuaciones funcione correctamente:
+        // TODO La idea es usar siempre una ponderacion. Si el usuario la indica, usarla, si no, usar la ponderacion por defecto (Id= W1 siempre).
+        // Sort es opcional, si se indica, las ponderaciones no se aplicarán.
+        // Incluir en los parametros: WeightId o el nombre para seleccionar la ponderacion      (Se requiere siempre)
+        //                            WeightOrder DESC/ASC                                      (Opcional, si no hay, usar la por defecto ASC) (Si se indica y es incorrecta, informar)
+
+        // Check bad requests
+//        if(rankingParams.getRankingId()==null)
+//            return new ResponseEntity ("Bad params: A default ranking must be set. rankingId is required", HttpStatus.BAD_REQUEST);
+
+
+        // Retrieve Reuses
+        Page<Reuse> reuses;
+
+        if(pageable.getSort()!=null) {
+            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
+            reuses = reuseRepository.findAll(pageable);
+        }else {
+            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
+            log.info("Key de ranking a usar: " + rankingId);
+            if(inverted==null) {
+                log.info("Parametro Inverted no especificado, usar DESC");
+                reuses = reuseRepository.findByWeightAssocWeightIdOrderByWeightAssocValueDesc(rankingId, pageable);
+            }else {
+                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
+                reuses = reuseRepository.findByWeightAssocWeightIdOrderByWeightAssocValueAsc(rankingId, pageable);
+            }
+        }
+
+        PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(methodOn(ReusesApiController.class).getAllReuses(rankingId, inverted, pageable, assembler)).withSelfRel());
+        pr.add(linkTo(ReusesApiController.class).slash("/reuses").withRel("collection"));
         return new ResponseEntity (pr, HttpStatus.OK);
     }
 

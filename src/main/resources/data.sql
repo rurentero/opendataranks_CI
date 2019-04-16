@@ -86,8 +86,6 @@ INSERT INTO `opendataranks_db`.`reuse_tag` (`id_reuse`, `id_tag`) VALUES ('R3', 
 
 
 -- Puntuaciones manuales de prueba, al menos una por defecto para cada reuso
-INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('100', 'W2', 'R1');
-INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('30', 'W3', 'R1');
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('60', 'W4', 'R1');
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('100', 'W1', 'R1');
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('90', 'W1', 'R2');
@@ -99,4 +97,25 @@ INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`)
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('30', 'W1', 'R8');
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('20', 'W1', 'R9');
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('10', 'W1', 'R10');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('10', 'W2', 'R1');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('20', 'W2', 'R2');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('30', 'W2', 'R3');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('40', 'W2', 'R4');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('50', 'W2', 'R5');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('60', 'W2', 'R6');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('70', 'W2', 'R7');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('80', 'W2', 'R8');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('90', 'W2', 'R9');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('100', 'W2', 'R10');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('11', 'W3', 'R1');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('22', 'W3', 'R2');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('33', 'W3', 'R3');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('44', 'W3', 'R4');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('55', 'W3', 'R5');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('66', 'W3', 'R6');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('77', 'W3', 'R7');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('88', 'W3', 'R8');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('99', 'W3', 'R9');
+INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('99', 'W3', 'R10');
+
 
