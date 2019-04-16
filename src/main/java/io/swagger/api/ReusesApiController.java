@@ -1,6 +1,5 @@
 package io.swagger.api;
 
-import io.swagger.helpers.RankingParams;
 import io.swagger.model.Reuse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -48,21 +47,6 @@ public class ReusesApiController implements ReusesApi {
     // TODO Probar si se puede recuperar de la request un RankingParams
     public ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        // TODO Código original del método, dejarlo activo tras las pruebas de ponderaciones.
-//        Page<Reuse> reuses = reuseRepository.findAll(pageable);
-//        PagedResources<Reuse> pr = assembler.toResource(reuses,linkTo(ReusesApiController.class).slash("/reuses").withSelfRel());
-//        return new ResponseEntity (pr, HttpStatus.OK);
-        // TODO Cambios necesarios para que el sistema de puntuaciones funcione correctamente:
-        // TODO La idea es usar siempre una ponderacion. Si el usuario la indica, usarla, si no, usar la ponderacion por defecto (Id= W1 siempre).
-        // Sort es opcional, si se indica, las ponderaciones no se aplicarán.
-        // Incluir en los parametros: WeightId o el nombre para seleccionar la ponderacion      (Se requiere siempre)
-        //                            WeightOrder DESC/ASC                                      (Opcional, si no hay, usar la por defecto ASC) (Si se indica y es incorrecta, informar)
-
-        // Check bad requests
-//        if(rankingParams.getRankingId()==null)
-//            return new ResponseEntity ("Bad params: A default ranking must be set. rankingId is required", HttpStatus.BAD_REQUEST);
-
-
         // Retrieve Reuses
         Page<Reuse> reuses;
 
