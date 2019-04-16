@@ -61,7 +61,21 @@ INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W5', '0.5', 'Descargas el doble', '0.25', '0.25');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W6', '0.25', 'Comentarios el doble', '0.5', '0.25');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W7', '0.25', 'Puntuacion el doble', '0.25', '0.5');
-
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W8', '0.5', '(0.5-0.33-0.16) Mayor a menor DCP', '0.33', '0.16');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W9', '0.5', '(0.5-0.33-0.16) Mayor a menor DPC', '0.16', '0.33');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W10', '0.33', '(0.5-0.33-0.16) Mayor a menor PDC', '0.16', '0.5');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W11', '0.33', '(0.5-0.33-0.16) Mayor a menor CDP', '0.5', '0.16');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W12', '0.16', '(0.5-0.33-0.16) Mayor a menor CPD', '0.5', '0.33');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W13', '0.16', '(0.5-0.33-0.16) Mayor a menor PCD', '0.33', '0.5');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W14', '0.66', '(0.66-0.17-0.17) Mayor: D', '0.17', '0.17');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W15', '0.17', '(0.66-0.17-0.17) Mayor: C', '0.66', '0.17');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W16', '0.17', '(0.66-0.17-0.17) Mayor: P', '0.17', '0.66');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W17', '0.66', '(0.66-0.33-0) D > C', '0.33', '0');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W18', '0.66', '(0.66-0.33-0) D > P', '0', '0.33');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W19', '0.33', '(0.66-0.33-0) C > D', '0.66', '0');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W20', '0.33', '(0.66-0.33-0) P > D', '0', '0.66');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W21', '0', '(0.66-0.33-0) P > C', '0.33', '0.66');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W22', '0', '(0.66-0.33-0) C > P', '0.66', '0.33');
 
 -- Datos sobre las relaciones entre dataset_reuse
 INSERT INTO `opendataranks_db`.`dataset_reuse` (`id_dataset`, `id_reuse`) VALUES ('A1', 'R4');
