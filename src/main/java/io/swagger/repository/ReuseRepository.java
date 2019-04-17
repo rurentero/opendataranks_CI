@@ -16,7 +16,7 @@ public interface ReuseRepository extends JpaRepository<Reuse, String> {
     Page<Reuse> findDistinctByTagsNameIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags
 
     // Methods to be used when collections use ranking (weights).
-    // TODO probar tags
+
     // Find all using rankings
     Page<Reuse> findByWeightAssocWeightIdOrderByWeightAssocValueDesc(String Id, Pageable pageable);
     Page<Reuse> findByWeightAssocWeightIdOrderByWeightAssocValueAsc(String Id, Pageable pageable);

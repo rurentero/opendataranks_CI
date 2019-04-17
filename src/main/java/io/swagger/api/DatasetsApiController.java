@@ -52,59 +52,143 @@ public class DatasetsApiController implements DatasetsApi {
         this.request = request;
     }
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasets(Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasets(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        Page<Dataset> datasets = datasetRepository.findAll(pageable);
-        PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(DatasetsApiController.class).slash("/datasets").withSelfRel());
+        // Retrieve Datasets
+        Page<Dataset> datasets;
+
+        if(pageable.getSort()!=null) {
+            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
+            datasets = datasetRepository.findAll(pageable);
+        }else {
+            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
+            log.info("Key de ranking a usar: " + rankingId);
+            if(inverted==null) {
+                log.info("Parametro Inverted no especificado, usar DESC");
+                datasets = datasetRepository.findByWeightAssocWeightIdOrderByWeightAssocValueDesc(rankingId, pageable);
+            }else {
+                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
+                datasets = datasetRepository.findByWeightAssocWeightIdOrderByWeightAssocValueAsc(rankingId, pageable);
+            }
+        }
+
+        PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasets(rankingId, inverted, pageable, assembler)).withSelfRel());
+        pr.add(linkTo(DatasetsApiController.class).slash("/datasets").withRel("collection"));
         return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license type of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license type of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        if(license==null){
+
+        if (license==null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
-        }else{
-            Page<Dataset> datasets = datasetRepository.findByLicense(license, pageable);
-            PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByLicense(license, pageable, assembler)).withSelfRel());
-            return new ResponseEntity (pr, HttpStatus.OK);
-        }
-    }
 
+        // Retrieve Datasets
+        Page<Dataset> datasets;
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
-        if(name==null){
-            return new ResponseEntity (HttpStatus.BAD_REQUEST);
-        }else{
-            Page<Dataset> datasets = datasetRepository.findByTitleContainingIgnoreCase(name, pageable);
-            PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByName(name, pageable, assembler)).withSelfRel());
-            return new ResponseEntity (pr, HttpStatus.OK);
-        }
-    }
-
-
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name,Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
-        if(name==null){
-            return new ResponseEntity (HttpStatus.BAD_REQUEST);
+        if(pageable.getSort()!=null) {
+            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
+            datasets = datasetRepository.findByLicense(license,pageable);
         }else {
-            Page<Dataset> datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCase(name, pageable);
-            PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByOrganization(name, pageable, assembler)).withSelfRel());
-            return new ResponseEntity (pr, HttpStatus.OK);
+            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
+            log.info("Key de ranking a usar: " + rankingId);
+            if(inverted==null) {
+                log.info("Parametro Inverted no especificado, usar DESC");
+                datasets = datasetRepository.findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(license, rankingId, pageable);
+            }else {
+                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
+                datasets = datasetRepository.findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(license, rankingId, pageable);
+            }
         }
+
+        PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByLicense(license, rankingId, inverted, pageable, assembler)).withSelfRel());
+        pr.add(linkTo(DatasetsApiController.class).slash("/datasets").withRel("collection"));
+        return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
-        if(tags.isEmpty()){
+
+        if (name==null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
+
+        // Retrieve Datasets
+        Page<Dataset> datasets;
+
+        if(pageable.getSort()!=null) {
+            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
+            datasets = datasetRepository.findByTitleContainingIgnoreCase(name, pageable);
         }else {
-            Page<Dataset> datasets = datasetRepository.findDistinctByTagsNameIgnoreCaseIn(tags, pageable);
-            PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByTags(tags, pageable, assembler)).withSelfRel());
-            return new ResponseEntity (pr, HttpStatus.OK);
+            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
+            log.info("Key de ranking a usar: " + rankingId);
+            if(inverted==null) {
+                log.info("Parametro Inverted no especificado, usar DESC");
+                datasets = datasetRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
+            }else {
+                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
+                datasets = datasetRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(name, rankingId, pageable);
+            }
         }
+
+        PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByName(name, rankingId, inverted, pageable, assembler)).withSelfRel());
+        pr.add(linkTo(DatasetsApiController.class).slash("/datasets").withRel("collection"));
+        return new ResponseEntity (pr, HttpStatus.OK);
+    }
+
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
+        String accept = request.getHeader("Accept");
+        if(name==null)
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
+
+        // Retrieve Datasets
+        Page<Dataset> datasets;
+
+        if(pageable.getSort()!=null) {
+            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
+            datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCase(name, pageable);
+        }else {
+            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
+            log.info("Key de ranking a usar: " + rankingId);
+            if(inverted==null) {
+                log.info("Parametro Inverted no especificado, usar DESC");
+                datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
+            }else {
+                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
+                datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(name, rankingId, pageable);
+            }
+        }
+
+        PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByOrganization(name, rankingId, inverted, pageable, assembler)).withSelfRel());
+        pr.add(linkTo(DatasetsApiController.class).slash("/datasets").withRel("collection"));
+        return new ResponseEntity (pr, HttpStatus.OK);
+    }
+
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted,  Pageable pageable, PagedResourcesAssembler assembler) {
+        String accept = request.getHeader("Accept");
+        if(tags.isEmpty())
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
+
+        // Retrieve Datasets
+        Page<Dataset> datasets;
+
+        if(pageable.getSort()!=null) {
+            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
+            datasets = datasetRepository.findDistinctByTagsNameIgnoreCaseIn(tags, pageable);
+        }else {
+            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
+            log.info("Key de ranking a usar: " + rankingId);
+            if(inverted==null) {
+                log.info("Parametro Inverted no especificado, usar DESC");
+                datasets = datasetRepository.findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
+            }else {
+                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
+                datasets = datasetRepository.findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
+            }
+        }
+
+        PagedResources<Dataset> pr = assembler.toResource(datasets,linkTo(methodOn(DatasetsApiController.class).getAllDatasetsByTags(tags, rankingId, inverted, pageable, assembler)).withSelfRel());
+        pr.add(linkTo(DatasetsApiController.class).slash("/datasets").withRel("collection"));
+        return new ResponseEntity (pr, HttpStatus.OK);
     }
 
     public ResponseEntity<Dataset> getDatasetById(@ApiParam(value = "pass the dataset id to return its properties",required=true) @PathVariable("datasetId") String datasetId) {

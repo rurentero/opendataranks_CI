@@ -38,6 +38,8 @@ public class Weight implements Serializable {
   @OneToMany(mappedBy = "weight")
   private List<ReuseWeight> reuseAssoc;
 
+  @OneToMany(mappedBy = "weight")
+  private List<DatasetWeight> datasetAssoc;
 
   public Weight id(String id) {
     this.id = id;
@@ -142,6 +144,17 @@ public class Weight implements Serializable {
 
   public void setReuseAssoc(List<ReuseWeight> reuseAssoc) { this.reuseAssoc = reuseAssoc; }
 
+  /**
+   * Get datasetAssoc
+   * @return datasetAssoc
+   **/
+  public List<DatasetWeight> getDatasetAssoc() {
+    return datasetAssoc;
+  }
+
+  public void setDatasetAssoc(List<DatasetWeight> datasetAssoc) {
+    this.datasetAssoc = datasetAssoc;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {

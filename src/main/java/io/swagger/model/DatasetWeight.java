@@ -11,13 +11,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class ReuseWeight implements Serializable {
+public class DatasetWeight implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "reuse_id", referencedColumnName = "id")
+    @JoinColumn(name = "dataset_id", referencedColumnName = "id")
     @JsonIgnore
-    private Reuse reuse;
+    private Dataset dataset;
 
     @Id
     @ManyToOne
@@ -29,13 +29,12 @@ public class ReuseWeight implements Serializable {
     @JsonProperty("value")
     private Float value;
 
-
-    public Reuse getReuse() {
-        return reuse;
+    public Dataset getDataset() {
+        return dataset;
     }
 
-    public void setReuse(Reuse reuse) {
-        this.reuse = reuse;
+    public void setDataset(Dataset dataset) {
+        this.dataset = dataset;
     }
 
     public Weight getWeight() {
@@ -58,21 +57,21 @@ public class ReuseWeight implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReuseWeight that = (ReuseWeight) o;
-        return Objects.equals(reuse, that.reuse) &&
+        DatasetWeight that = (DatasetWeight) o;
+        return Objects.equals(dataset, that.dataset) &&
                 Objects.equals(weight, that.weight) &&
                 Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reuse, weight, value);
+        return Objects.hash(dataset, weight, value);
     }
 
     @Override
     public String toString() {
-        return "ReuseWeight{" +
-                "reuse=" + reuse +
+        return "DatasetWeight{" +
+                "dataset=" + dataset +
                 ", weight=" + weight +
                 ", value=" + value +
                 '}';

@@ -14,4 +14,28 @@ public interface DatasetRepository extends JpaRepository<Dataset, String> {
     Page<Dataset> findByTitleContainingIgnoreCase (String title, Pageable pageable);
     Page<Dataset> findByOrganizationTitleContainingIgnoreCase (String organizationTitle, Pageable pageable);
     Page<Dataset> findDistinctByTagsNameIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags
+
+
+    // Find all using ranking
+    Page<Dataset> findByWeightAssocWeightIdOrderByWeightAssocValueDesc(String Id, Pageable pageable);
+    Page<Dataset> findByWeightAssocWeightIdOrderByWeightAssocValueAsc(String Id, Pageable pageable);
+
+    // Find by title using rankings
+    Page<Dataset> findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(String title, String id, Pageable pageable);
+    Page<Dataset> findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(String title, String id, Pageable pageable);
+
+    // Find by license using rankings
+    Page<Dataset> findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(String title, String id, Pageable pageable);
+    Page<Dataset> findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(String title, String id, Pageable pageable);
+
+    // Find by organization using rankings
+    Page<Dataset> findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(String organizationTitle, String id, Pageable pageable);
+    Page<Dataset> findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(String organizationTitle, String id, Pageable pageable);
+
+    // Find by tags using rankings
+    // We cant use Distinct with OrderBy if the attribute specified in OrderBy is not present in the SELECT clause. Duplicated should be removed later.
+    Page<Dataset> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(List<String> name, String id, Pageable pageable);
+    Page<Dataset> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(List<String> name, String id, Pageable pageable);
+
+
 }

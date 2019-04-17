@@ -132,4 +132,19 @@ INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`)
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('99', 'W3', 'R9');
 INSERT INTO `opendataranks_db`.`reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('99', 'W3', 'R10');
 
+-- Puntuaciones manuales de prueba, al menos una por defecto para cada dataset
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('10', 'W1', 'A1');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('20', 'W1', 'A2');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('30', 'W1', 'A3');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('40', 'W1', 'A4');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('50', 'W1', 'A5');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('60', 'W1', 'A6');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('70', 'W1', 'A7');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('80', 'W1', 'A8');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('90', 'W1', 'A9');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('100', 'W1', 'A10');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('22', 'W2', 'A1');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('33', 'W3', 'A1');
+INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('44', 'W4', 'A1');
+
 
