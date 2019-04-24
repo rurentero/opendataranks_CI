@@ -66,7 +66,7 @@ public class Organization implements Serializable {
           cascade = CascadeType.ALL
   )
   @JsonProperty("datasets")
-  @JsonIgnoreProperties({"organization", "reuses","tags"})
+  @JsonIgnoreProperties({"organization", "reuses","tags", "weightAssoc"})
   private List<Dataset> datasets = new ArrayList<>();
 
   @OneToMany(

@@ -2,14 +2,13 @@ package io.swagger.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.*;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
-import org.threeten.bp.OffsetDateTime;
+
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -34,10 +33,10 @@ public class Reuse implements Serializable {
   private String description = null;
 
   @JsonProperty("created_at")
-  private OffsetDateTime createdAt = null;
+  private Date createdAt = null;
 
   @JsonProperty("last_modified")
-  private OffsetDateTime lastModified = null;
+  private Date lastModified = null;
 
   @JsonProperty("url")
   private String url = null;
@@ -48,9 +47,6 @@ public class Reuse implements Serializable {
   @JsonProperty("views")
   private String views = null;
 
-  @JsonProperty("followers")
-  private String followers = null;
-
   @JsonProperty("type")
   private String type = null;
 
@@ -58,22 +54,22 @@ public class Reuse implements Serializable {
   private Integer reviewsNum = null;
 
   @JsonProperty("score")
-  private BigDecimal score = null;
+  private Float score = null;
 
   @JsonProperty("score_5")
-  private BigDecimal score5 = null;
+  private Float score5 = null;
 
   @JsonProperty("score_4")
-  private BigDecimal score4 = null;
+  private Float score4 = null;
 
   @JsonProperty("score_3")
-  private BigDecimal score3 = null;
+  private Float score3 = null;
 
   @JsonProperty("score_2")
-  private BigDecimal score2 = null;
+  private Float score2 = null;
 
   @JsonProperty("score_1")
-  private BigDecimal score1 = null;
+  private Float score1 = null;
 
   @JsonProperty("downloads")
   private Integer downloads = null;
@@ -171,7 +167,7 @@ public class Reuse implements Serializable {
     this.description = description;
   }
 
-  public Reuse createdAt(OffsetDateTime createdAt) {
+  public Reuse createdAt(Date createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -183,15 +179,15 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public OffsetDateTime getCreatedAt() {
+  public Date getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(OffsetDateTime createdAt) {
+  public void setCreatedAt(Date createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Reuse lastModified(OffsetDateTime lastModified) {
+  public Reuse lastModified(Date lastModified) {
     this.lastModified = lastModified;
     return this;
   }
@@ -203,11 +199,11 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public OffsetDateTime getLastModified() {
+  public Date getLastModified() {
     return lastModified;
   }
 
-  public void setLastModified(OffsetDateTime lastModified) {
+  public void setLastModified(Date lastModified) {
     this.lastModified = lastModified;
   }
 
@@ -268,25 +264,6 @@ public class Reuse implements Serializable {
     this.views = views;
   }
 
-  public Reuse followers(String followers) {
-    this.followers = followers;
-    return this;
-  }
-
-  /**
-   * Get followers
-   * @return followers
-  **/
-  @ApiModelProperty(value = "")
-
-  public String getFollowers() {
-    return followers;
-  }
-
-  public void setFollowers(String followers) {
-    this.followers = followers;
-  }
-
   public Reuse type(String type) {
     this.type = type;
     return this;
@@ -325,7 +302,7 @@ public class Reuse implements Serializable {
     this.reviewsNum = reviewsNum;
   }
 
-  public Reuse score(BigDecimal score) {
+  public Reuse score(Float score) {
     this.score = score;
     return this;
   }
@@ -337,15 +314,15 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public BigDecimal getScore() {
+  public Float getScore() {
     return score;
   }
 
-  public void setScore(BigDecimal score) {
+  public void setScore(Float score) {
     this.score = score;
   }
 
-  public Reuse score5(BigDecimal score5) {
+  public Reuse score5(Float score5) {
     this.score5 = score5;
     return this;
   }
@@ -357,15 +334,15 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public BigDecimal getScore5() {
+  public Float getScore5() {
     return score5;
   }
 
-  public void setScore5(BigDecimal score5) {
+  public void setScore5(Float score5) {
     this.score5 = score5;
   }
 
-  public Reuse score4(BigDecimal score4) {
+  public Reuse score4(Float score4) {
     this.score4 = score4;
     return this;
   }
@@ -377,15 +354,15 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public BigDecimal getScore4() {
+  public Float getScore4() {
     return score4;
   }
 
-  public void setScore4(BigDecimal score4) {
+  public void setScore4(Float score4) {
     this.score4 = score4;
   }
 
-  public Reuse score3(BigDecimal score3) {
+  public Reuse score3(Float score3) {
     this.score3 = score3;
     return this;
   }
@@ -397,15 +374,15 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public BigDecimal getScore3() {
+  public Float getScore3() {
     return score3;
   }
 
-  public void setScore3(BigDecimal score3) {
+  public void setScore3(Float score3) {
     this.score3 = score3;
   }
 
-  public Reuse score2(BigDecimal score2) {
+  public Reuse score2(Float score2) {
     this.score2 = score2;
     return this;
   }
@@ -417,15 +394,15 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public BigDecimal getScore2() {
+  public Float getScore2() {
     return score2;
   }
 
-  public void setScore2(BigDecimal score2) {
+  public void setScore2(Float score2) {
     this.score2 = score2;
   }
 
-  public Reuse score1(BigDecimal score1) {
+  public Reuse score1(Float score1) {
     this.score1 = score1;
     return this;
   }
@@ -437,11 +414,11 @@ public class Reuse implements Serializable {
   @ApiModelProperty(value = "")
 
   @Valid
-  public BigDecimal getScore1() {
+  public Float getScore1() {
     return score1;
   }
 
-  public void setScore1(BigDecimal score1) {
+  public void setScore1(Float score1) {
     this.score1 = score1;
   }
 
@@ -515,7 +492,6 @@ public class Reuse implements Serializable {
         Objects.equals(this.url, reuse.url) &&
         Objects.equals(this.image, reuse.image) &&
         Objects.equals(this.views, reuse.views) &&
-        Objects.equals(this.followers, reuse.followers) &&
         Objects.equals(this.type, reuse.type) &&
         Objects.equals(this.reviewsNum, reuse.reviewsNum) &&
         Objects.equals(this.score, reuse.score) &&
@@ -529,7 +505,7 @@ public class Reuse implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, createdAt, lastModified, url, image, views, followers, type, reviewsNum, score, score5, score4, score3, score2, score1, downloads);
+    return Objects.hash(id, title, description, createdAt, lastModified, url, image, views, type, reviewsNum, score, score5, score4, score3, score2, score1, downloads);
   }
 
   @Override
@@ -545,7 +521,6 @@ public class Reuse implements Serializable {
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    views: ").append(toIndentedString(views)).append("\n");
-    sb.append("    followers: ").append(toIndentedString(followers)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    reviewsNum: ").append(toIndentedString(reviewsNum)).append("\n");
     sb.append("    score: ").append(toIndentedString(score)).append("\n");

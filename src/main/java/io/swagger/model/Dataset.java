@@ -2,15 +2,12 @@ package io.swagger.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.*;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.ResourceSupport;
-import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -35,10 +32,10 @@ public class Dataset implements Serializable  {
   private String description = null;
 
   @JsonProperty("created_at")
-  private OffsetDateTime createdAt = null;
+  private Date createdAt = null;
 
   @JsonProperty("last_modified")
-  private OffsetDateTime lastModified = null;
+  private Date lastModified = null;
 
   @JsonProperty("url")
   private String url = null;
@@ -48,9 +45,6 @@ public class Dataset implements Serializable  {
 
   @JsonProperty("views")
   private String views = null;
-
-  @JsonProperty("followers")
-  private String followers = null;
 
   @JsonProperty("frequency")
   private String frequency = null;
@@ -156,7 +150,7 @@ public class Dataset implements Serializable  {
     this.description = description;
   }
 
-  public Dataset createdAt(OffsetDateTime createdAt) {
+  public Dataset createdAt(Date createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -168,15 +162,15 @@ public class Dataset implements Serializable  {
   @ApiModelProperty(value = "")
 
   @Valid
-  public OffsetDateTime getCreatedAt() {
+  public Date getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(OffsetDateTime createdAt) {
+  public void setCreatedAt(Date createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Dataset lastModified(OffsetDateTime lastModified) {
+  public Dataset lastModified(Date lastModified) {
     this.lastModified = lastModified;
     return this;
   }
@@ -188,11 +182,11 @@ public class Dataset implements Serializable  {
   @ApiModelProperty(value = "")
 
   @Valid
-  public OffsetDateTime getLastModified() {
+  public Date getLastModified() {
     return lastModified;
   }
 
-  public void setLastModified(OffsetDateTime lastModified) {
+  public void setLastModified(Date lastModified) {
     this.lastModified = lastModified;
   }
 
@@ -251,25 +245,6 @@ public class Dataset implements Serializable  {
 
   public void setViews(String views) {
     this.views = views;
-  }
-
-  public Dataset followers(String followers) {
-    this.followers = followers;
-    return this;
-  }
-
-  /**
-   * Get followers
-   * @return followers
-  **/
-  @ApiModelProperty(value = "")
-
-  public String getFollowers() {
-    return followers;
-  }
-
-  public void setFollowers(String followers) {
-    this.followers = followers;
   }
 
   public Dataset frequency(String frequency) {
@@ -383,7 +358,6 @@ public class Dataset implements Serializable  {
         Objects.equals(this.url, dataset.url) &&
         Objects.equals(this.image, dataset.image) &&
         Objects.equals(this.views, dataset.views) &&
-        Objects.equals(this.followers, dataset.followers) &&
         Objects.equals(this.frequency, dataset.frequency) &&
         Objects.equals(this.reusesNum, dataset.reusesNum) &&
         Objects.equals(this.license, dataset.license);
@@ -391,7 +365,7 @@ public class Dataset implements Serializable  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, createdAt, lastModified, url, image, views, followers, frequency, reusesNum, license);
+    return Objects.hash(id, title, description, createdAt, lastModified, url, image, views, frequency, reusesNum, license);
   }
 
   @Override
@@ -407,7 +381,6 @@ public class Dataset implements Serializable  {
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    views: ").append(toIndentedString(views)).append("\n");
-    sb.append("    followers: ").append(toIndentedString(followers)).append("\n");
     sb.append("    frequency: ").append(toIndentedString(frequency)).append("\n");
     sb.append("    reusesNum: ").append(toIndentedString(reusesNum)).append("\n");
     sb.append("    license: ").append(toIndentedString(license)).append("\n");
