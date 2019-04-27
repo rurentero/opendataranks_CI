@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import io.swagger.helpers.ExcelPOIHelper;
 import io.swagger.helpers.FormDataWithFile;
+import io.swagger.helpers.RankingCalculator;
 import io.swagger.model.User;
 import io.swagger.model.Weight;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,12 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -27,7 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Controller
 public class UserApiController implements UserApi {
@@ -42,6 +40,9 @@ public class UserApiController implements UserApi {
 
     @Resource(name = "excelPOIHelper")
     private ExcelPOIHelper excelPOIHelper;
+
+    @Resource(name = "rankingCalculator")
+    private RankingCalculator rankingCalculator;
 
     @org.springframework.beans.factory.annotation.Autowired
     public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -101,20 +102,20 @@ public class UserApiController implements UserApi {
 
 
     // ADMINS section. Path: /admins
-    // TODO Seccion para los administradores: Subida de fichero, añadir nueva ponderacion
+    // TODO Seccion para los administradores: Subida de fichero (hecho), añadir nueva ponderacion
+    // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
 
-    // TODO algoritmo de carga (leer celdas): https://stackoverflow.com/questions/19346607/conversion-of-excel-data-to-mysql-tables
-    // TODO Controlador: https://github.com/eugenp/tutorials/blob/master/spring-mvc-java/src/main/java/com/baeldung/web/controller/ExcelController.java
-    // TODO poihelper https://github.com/eugenp/tutorials/blob/master/spring-mvc-java/src/main/java/com/baeldung/excel/ExcelPOIHelper.java
     public ResponseEntity<Void> uploadFileAndMapping(FormDataWithFile formDataWithFile) {
-        // TODO Subir fichero al servidor: https://www.adictosaltrabajo.com/2012/05/03/upload-file-spring/
-        // Seria correcto recoger el fichero y guardarlo siempre con el mismo nombre predeterminado en el servidor, asi no mantenemos la ruta que dio el usuario
-        // Guardar el fichero en local y luego llamar al helper para que actualice la BD
         try {
             saveFileInLocal(formDataWithFile.getFile());
             log.info("File sucesfully copied in server system");
             //Call excelPOIHelper and save file content into DB
             excelPOIHelper.readExcel(fileLocation, formDataWithFile);
+            //TODO Mover el procesamiento del fichero y el calculo de ponderaciones a un Thread aparte.
+            //Call rankingCalculator
+            rankingCalculator.calculateReuseRankings();
+            rankingCalculator.calculateDatasetsRankings();
+
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Problems found during the upload");
@@ -123,7 +124,11 @@ public class UserApiController implements UserApi {
         return new ResponseEntity (HttpStatus.OK);
     }
 
-    //TODO Probar que el fichero se sube/guarda correctamente.
+    /**
+     * Saves a MultipartFile in local files.
+     * @param multipartFile
+     * @throws Exception
+     */
     private void saveFileInLocal(MultipartFile multipartFile) throws Exception {
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();

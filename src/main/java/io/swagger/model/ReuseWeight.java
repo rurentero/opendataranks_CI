@@ -22,7 +22,8 @@ public class ReuseWeight implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "weight_id", referencedColumnName = "id")
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonProperty("weight_id")
     private Weight weight;
 
 

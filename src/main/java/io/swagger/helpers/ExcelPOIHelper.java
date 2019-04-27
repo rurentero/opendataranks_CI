@@ -57,6 +57,8 @@ public class ExcelPOIHelper {
     Integer organizationsCounter = 0;
     Integer datasetReusesRelationsCounter = 0;
 
+
+
     public void readExcel(String fileLocation, FormDataWithFile formData) throws IOException {
 
         formDataWithFile = formData;
@@ -269,7 +271,7 @@ public class ExcelPOIHelper {
                             if(excelColumns.getR_image()!=null && j==excelColumns.getR_image())
                                 reuse.setImage(cell.getStringCellValue());
                             if(excelColumns.getR_views()!=null && j==excelColumns.getR_views())
-                                reuse.setViews(cell.getStringCellValue());
+                                reuse.setViews((int) cell.getNumericCellValue());
                             if(excelColumns.getR_type()!=null && j==excelColumns.getR_type())
                                 reuse.setType(cell.getStringCellValue());
                             if(excelColumns.getR_reviewsNum()!=null && j==excelColumns.getR_reviewsNum())

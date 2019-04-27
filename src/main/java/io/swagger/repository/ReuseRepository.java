@@ -34,14 +34,4 @@ public interface ReuseRepository extends JpaRepository<Reuse, String> {
     Page<Reuse> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(List<String> name, String id, Pageable pageable);
     Page<Reuse> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(List<String> name, String id, Pageable pageable);
 
-    // TODO Prueba con Query descartada
-    @Query("select r, wa.value from Reuse r inner join r.weightAssoc wa where wa.weight=:Id")
-    Page<Object> findCustom(String Id, Pageable pageable);
-
-
-
-
-
-
-    //TODO Para que el JSON solo muestre un value, crear una query (respuesta de Atal?) Aqui: https://stackoverflow.com/questions/22007341/spring-jpa-selecting-specific-columns
 }

@@ -45,34 +45,34 @@ public class Reuse implements Serializable {
   private String image = null;
 
   @JsonProperty("views")
-  private String views = null;
+  private Integer views = 0;
 
   @JsonProperty("type")
   private String type = null;
 
   @JsonProperty("reviews_num")
-  private Integer reviewsNum = null;
+  private Integer reviewsNum = 0;
 
   @JsonProperty("score")
-  private Float score = null;
+  private Float score = 0f;
 
   @JsonProperty("score_5")
-  private Float score5 = null;
+  private Float score5 = 0f;
 
   @JsonProperty("score_4")
-  private Float score4 = null;
+  private Float score4 = 0f;
 
   @JsonProperty("score_3")
-  private Float score3 = null;
+  private Float score3 = 0f;
 
   @JsonProperty("score_2")
-  private Float score2 = null;
+  private Float score2 = 0f;
 
   @JsonProperty("score_1")
-  private Float score1 = null;
+  private Float score1 = 0f;
 
   @JsonProperty("downloads")
-  private Integer downloads = null;
+  private Integer downloads = 0;
 
   @ManyToOne
   @JoinColumn(name = "organization_id")
@@ -245,7 +245,7 @@ public class Reuse implements Serializable {
     this.image = image;
   }
 
-  public Reuse views(String views) {
+  public Reuse views(Integer views) {
     this.views = views;
     return this;
   }
@@ -256,11 +256,11 @@ public class Reuse implements Serializable {
   **/
   @ApiModelProperty(value = "")
 
-  public String getViews() {
+  public Integer getViews() {
     return views;
   }
 
-  public void setViews(String views) {
+  public void setViews(Integer views) {
     this.views = views;
   }
 

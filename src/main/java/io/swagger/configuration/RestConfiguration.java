@@ -17,6 +17,8 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
         config.exposeIdsFor(Tag.class);
         config.exposeIdsFor(Organization.class);
         config.exposeIdsFor(Weight.class);
-        // TODO Añadir las entidades que se vayan creando/implementando
+        config.exposeIdsFor(ReuseWeight.class);
+        config.exposeIdsFor(DatasetWeight.class);
+        config.exposeIdsFor(User.class);
     }
 }

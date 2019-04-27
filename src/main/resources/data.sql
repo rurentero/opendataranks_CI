@@ -18,6 +18,7 @@ INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VAL
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O11', 'Gobierno de Rusia', 'Gobierno de Rusia');
 
 -- Datos base para la tabla Dataset
+/*
 INSERT INTO `opendataranks_db`.`dataset` (`id`, `description`, `license`, `title`, `organization_id`) VALUES ('A1', 'Farolas de caceres', 'Gratis', 'Farolas', 'O4');
 INSERT INTO `opendataranks_db`.`dataset` (`id`, `description`, `license`, `title`, `organization_id`) VALUES ('A2', 'Calles de caceres', 'Gratis', 'Calles', 'O4');
 INSERT INTO `opendataranks_db`.`dataset` (`id`, `description`, `license`, `title`, `organization_id`) VALUES ('A3', 'Barrios de caceres', 'Gratis', 'Barrios', 'O4');
@@ -51,7 +52,7 @@ INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VA
 INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R8', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
 INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R9', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
 INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VALUES ('R10', 'Prueba paginacion', 'Reuse Prueba paginacion', 'Application');
-
+*/
 -- Ponderaciones para la tabla Weight
 
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W1', '0.33', 'Balanceado', '0.33', '0.33');
@@ -76,7 +77,7 @@ INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W20', '0.33', '(0.66-0.33-0) P > D', '0', '0.66');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W21', '0', '(0.66-0.33-0) P > C', '0.33', '0.66');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W22', '0', '(0.66-0.33-0) C > P', '0.66', '0.33');
-
+/*
 -- Datos sobre las relaciones entre dataset_reuse
 INSERT INTO `opendataranks_db`.`dataset_reuse` (`id_dataset`, `id_reuse`) VALUES ('A1', 'R4');
 INSERT INTO `opendataranks_db`.`dataset_reuse` (`id_dataset`, `id_reuse`) VALUES ('A1', 'R2');
@@ -146,5 +147,5 @@ INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_
 INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('22', 'W2', 'A1');
 INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('33', 'W3', 'A1');
 INSERT INTO `opendataranks_db`.`dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('44', 'W4', 'A1');
-
+*/
 
