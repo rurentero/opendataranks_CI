@@ -26,6 +26,10 @@ public class Reuse implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
+  //TODO Cambiar la inicializacion de las variables y poner una por defecto
+  // TODO Mejor idea?: Declarar normal y poner constructor por defecto con todo inicializado a cadena vacía o un número
+  // TODO Falta datasetsNum? comprobar en el excel
+
   @JsonProperty("title")
   private String title = null;
 
