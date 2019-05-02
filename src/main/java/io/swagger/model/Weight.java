@@ -3,6 +3,8 @@ package io.swagger.model;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -36,9 +38,11 @@ public class Weight implements Serializable {
   private Float downloadsVal = null;
 
   @OneToMany(mappedBy = "weight")
+  @JsonIgnoreProperties({"weight"})
   private List<ReuseWeight> reuseAssoc;
 
   @OneToMany(mappedBy = "weight")
+  @JsonIgnoreProperties({"weight"})
   private List<DatasetWeight> datasetAssoc;
 
   public Weight id(String id) {

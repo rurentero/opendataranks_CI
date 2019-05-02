@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ public class ReuseWeight implements Serializable {
     @ManyToOne
     @JoinColumn(name = "weight_id", referencedColumnName = "id")
     //@JsonIgnore
+    @JsonIgnoreProperties({"reuseAssoc","datasetAssoc"})
     @JsonProperty("weight_id")
     private Weight weight;
 
