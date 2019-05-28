@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,12 +38,15 @@ public class Weight implements Serializable {
   @JsonProperty("downloads_val")
   private Float downloadsVal = null;
 
+  // TODO Es realmente necesario serializar reuseAssoc y datasetAssoc?
   @OneToMany(mappedBy = "weight")
   @JsonIgnoreProperties({"weight"})
+  @JsonIgnore
   private List<ReuseWeight> reuseAssoc;
 
   @OneToMany(mappedBy = "weight")
   @JsonIgnoreProperties({"weight"})
+  @JsonIgnore
   private List<DatasetWeight> datasetAssoc;
 
   public Weight id(String id) {
