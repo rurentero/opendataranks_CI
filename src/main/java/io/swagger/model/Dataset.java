@@ -47,7 +47,7 @@ public class Dataset implements Serializable  {
   private String image = null;
 
   @JsonProperty("views")
-  private String views = null;
+  private Integer views = null;
 
   @JsonProperty("frequency")
   private String frequency = null;
@@ -231,7 +231,7 @@ public class Dataset implements Serializable  {
     this.image = image;
   }
 
-  public Dataset views(String views) {
+  public Dataset views(Integer views) {
     this.views = views;
     return this;
   }
@@ -242,11 +242,11 @@ public class Dataset implements Serializable  {
   **/
   @ApiModelProperty(value = "")
 
-  public String getViews() {
+  public Integer getViews() {
     return views;
   }
 
-  public void setViews(String views) {
+  public void setViews(Integer views) {
     this.views = views;
   }
 

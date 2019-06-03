@@ -155,7 +155,7 @@ public class ExcelPOIHelper {
                             if(excelColumns.getD_image()!=null && j==excelColumns.getD_image())
                                 dataset.setImage(cell.getStringCellValue());
                             if(excelColumns.getD_views()!=null && j==excelColumns.getD_views())
-                                dataset.setViews(cell.getStringCellValue());
+                                dataset.setViews((int) cell.getNumericCellValue());
                             if(excelColumns.getD_frequency()!=null && j==excelColumns.getD_frequency())
                                 dataset.setFrequency(cell.getStringCellValue());
                             if(excelColumns.getD_reusesNum()!=null && j==excelColumns.getD_reusesNum())
