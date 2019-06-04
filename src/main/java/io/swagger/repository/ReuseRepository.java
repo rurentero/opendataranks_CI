@@ -13,7 +13,7 @@ public interface ReuseRepository extends JpaRepository<Reuse, String> {
     //                      findById()
     Page<Reuse> findByTitleContainingIgnoreCase (String title, Pageable pageable);
     Page<Reuse> findByOrganizationTitleContainingIgnoreCase(String organizationTitle, Pageable pageable);
-    Page<Reuse> findDistinctByTagsNameIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags
+    Page<Reuse> findDistinctByTagsIdIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags
 
     // Methods to be used when collections use ranking (weights).
 
@@ -31,7 +31,7 @@ public interface ReuseRepository extends JpaRepository<Reuse, String> {
 
     // Find by tags using rankings
     // We cant use Distinct with OrderBy if the attribute specified in OrderBy is not present in the SELECT clause. Duplicated should be removed later.
-    Page<Reuse> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(List<String> name, String id, Pageable pageable);
-    Page<Reuse> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(List<String> name, String id, Pageable pageable);
+    Page<Reuse> findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(List<String> name, String id, Pageable pageable);
+    Page<Reuse> findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(List<String> name, String id, Pageable pageable);
 
 }

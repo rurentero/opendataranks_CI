@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -22,7 +21,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -135,16 +133,16 @@ public class ReusesApiController implements ReusesApi {
 
         if(pageable.getSort()!=null) {
             log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
-            reuses = reuseRepository.findDistinctByTagsNameIgnoreCaseIn(tags,pageable);
+            reuses = reuseRepository.findDistinctByTagsIdIgnoreCaseIn(tags,pageable);
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
             if(inverted==null) {
                 log.info("Parametro Inverted no especificado, usar DESC");
-                reuses = reuseRepository.findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
+                reuses = reuseRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
             }else {
                 log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
-                reuses = reuseRepository.findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
+                reuses = reuseRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
             }
             //TODO Eliminar duplicados dentro de la pagina
 //            List<Reuse> reusesWithoutDuplicates = reuses.getContent()

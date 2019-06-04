@@ -13,11 +13,9 @@ import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -173,16 +171,16 @@ public class DatasetsApiController implements DatasetsApi {
 
         if(pageable.getSort()!=null) {
             log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
-            datasets = datasetRepository.findDistinctByTagsNameIgnoreCaseIn(tags, pageable);
+            datasets = datasetRepository.findDistinctByTagsIdIgnoreCaseIn(tags, pageable);
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
             if(inverted==null) {
                 log.info("Parametro Inverted no especificado, usar DESC");
-                datasets = datasetRepository.findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
+                datasets = datasetRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
             }else {
                 log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
-                datasets = datasetRepository.findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
+                datasets = datasetRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
             }
         }
 

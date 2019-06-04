@@ -3,6 +3,7 @@ package io.swagger.helpers;
 import io.swagger.model.Dataset;
 import io.swagger.model.Organization;
 import io.swagger.model.Reuse;
+import io.swagger.model.Tag;
 import io.swagger.repository.OrganizationRepository;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -43,19 +44,22 @@ public class ExcelPOIHelper {
 
     //Process variable
     //Initialization
-    XSSFWorkbook workbook;
-    EntityManager entityManager;
+    private XSSFWorkbook workbook;
+    private EntityManager entityManager;
 
-    //Declare tree for IDs, will be used to detect duplicates and avoid DB exceptions
-    Map<String,Void> orgIndex = new TreeMap<>();
-    Map<String,Void> datIndex = new TreeMap<>();
-    Map<String,Void> reuIndex = new TreeMap<>();
+    //Declare tree for IDs, will be used to detect duplicates and avoid DB exceptions.
+    private Map<String,Void> orgIndex = new TreeMap<>();
+    private Map<String,Void> datIndex = new TreeMap<>();
+    private Map<String,Void> reuIndex = new TreeMap<>();
+    //Declare tree for tag literals, will be used to detect duplicated tags.
+    private Map<String,Void> tagIndex = new TreeMap<>();
 
     //Declare some counters
-    Integer datasetCounter = 0;
-    Integer reusesCounter = 0;
-    Integer organizationsCounter = 0;
-    Integer datasetReusesRelationsCounter = 0;
+    private Integer datasetCounter = 0;
+    private Integer reusesCounter = 0;
+    private Integer organizationsCounter = 0;
+    private Integer datasetReusesRelationsCounter = 0;
+    private Integer tagCounter = 0;
 
 
 
@@ -74,14 +78,14 @@ public class ExcelPOIHelper {
         }
     }
 
-    //TODO metodo para leer .xlsx
+    //Reads an .xlsx file and saves its info into database
     private void readXSSFWorkbook(FileInputStream fis) throws IOException{
 
         try {
             workbook = new XSSFWorkbook(fis);
 
-            //Datasets process
-            //TODO Añadir el resto de atributos en la llamada desde la API para ver si funciona al completo.
+            //################Datasets process
+
             //Select first sheet: Datasets Sheet
             XSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -119,6 +123,8 @@ public class ExcelPOIHelper {
                         excelColumns.setD_organization_name(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getD_organization_id()))
                         excelColumns.setD_organization_id(cell.getColumnIndex());
+                    if (columnName.equals(formDataWithFile.getD_tags()))
+                        excelColumns.setD_tags(cell.getColumnIndex());
                 }
             }
             log.info("Dataset columns selected: " + excelColumns.toString());
@@ -131,9 +137,10 @@ public class ExcelPOIHelper {
             for (int i = sheet.getFirstRowNum()+1; i <= sheet.getLastRowNum(); i++) {
                 row = sheet.getRow(i);
                 if (row != null) {
-                    //Create new dataset object and new organization object
+                    //Create new dataset object, new organization object and an AuxVar for tags
                     Dataset dataset = new Dataset();
                     Organization organization = new Organization();
+                    String lineOfTags = "";
 
                     //For every cell, save att in dataset object
                     for (int j = 0; j < row.getLastCellNum(); j++) {
@@ -162,6 +169,9 @@ public class ExcelPOIHelper {
                                 dataset.setReusesNum((int) cell.getNumericCellValue());
                             if(excelColumns.getD_license()!=null && j==excelColumns.getD_license())
                                 dataset.setLicense(cell.getStringCellValue());
+                            //Tags attribute: If present, saves it into an auxiliary var. They will be inserted into database AFTER the dataset.
+                            if(excelColumns.getD_tags()!=null && j==excelColumns.getD_tags())
+                                lineOfTags = cell.getStringCellValue();
                             //If ORG is present, create new ORG and save att in org object
                             if(excelColumns.getD_organization_name()!=null && j==excelColumns.getD_organization_name())
                                 organization.setTitle(cell.getStringCellValue());
@@ -180,13 +190,15 @@ public class ExcelPOIHelper {
                     //Save dataset
                     if (dataset.getId()!=null){
                         saveDataset(dataset);
+                        //Tags attribute: Processes the tag list if present
+                        processDatasetTags(lineOfTags, dataset.getId());
                     }
                     entityManager.clear();
 
                 }
             } //End row iterator
 
-            //Reuses process
+            //################Reuses process
 
             //Select second sheet: Reuses Sheet
             sheet = workbook.getSheetAt(1);
@@ -219,6 +231,8 @@ public class ExcelPOIHelper {
                         excelColumns.setR_type(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getR_reviewsNum()))
                         excelColumns.setR_reviewsNum(cell.getColumnIndex());
+                    if (columnName.equals(formDataWithFile.getR_datasetsNum()))
+                        excelColumns.setR_datasetsNum(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getR_score()))
                         excelColumns.setR_score(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getR_score5()))
@@ -237,6 +251,8 @@ public class ExcelPOIHelper {
                         excelColumns.setR_organization_name(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getR_organization_id()))
                         excelColumns.setR_organization_id(cell.getColumnIndex());
+                    if (columnName.equals(formDataWithFile.getR_tags()))
+                        excelColumns.setR_tags(cell.getColumnIndex());
                 }
             }
             log.info("Reuses columns selected: " + excelColumns.toString());
@@ -250,6 +266,7 @@ public class ExcelPOIHelper {
                     //Create new reuse object and new organization object
                     Reuse reuse = new Reuse();
                     Organization organization = new Organization();
+                    String lineOfTags = "";
 
                     //For every cell, save att in reuse object
                     for (int j = 0; j < row.getLastCellNum(); j++) {
@@ -276,6 +293,8 @@ public class ExcelPOIHelper {
                                 reuse.setType(cell.getStringCellValue());
                             if(excelColumns.getR_reviewsNum()!=null && j==excelColumns.getR_reviewsNum())
                                 reuse.setReviewsNum((int) cell.getNumericCellValue());
+                            if(excelColumns.getR_datasetsNum()!=null && j==excelColumns.getR_datasetsNum())
+                                reuse.setDatasetsNum((int) cell.getNumericCellValue());
                             if(excelColumns.getR_score()!=null && j==excelColumns.getR_score())
                                 reuse.setScore((float) cell.getNumericCellValue());
                             if(excelColumns.getR_score5()!=null && j==excelColumns.getR_score5())
@@ -290,6 +309,10 @@ public class ExcelPOIHelper {
                                 reuse.setScore1((float) cell.getNumericCellValue());
                             if(excelColumns.getR_downloads()!=null && j==excelColumns.getR_downloads())
                                 reuse.setDownloads((int) cell.getNumericCellValue());
+
+                            //Tags attribute: Splits the string and inserts the list (reference to every tag).
+                            if(excelColumns.getR_tags()!=null && j==excelColumns.getR_tags())
+                                lineOfTags = cell.getStringCellValue();
 
                             //If ORG is present, create new ORG and save att in org object
                             if(excelColumns.getR_organization_name()!=null && j==excelColumns.getR_organization_name())
@@ -309,7 +332,10 @@ public class ExcelPOIHelper {
                     //Save reuse
                     if (reuse.getId()!=null){
                         saveReuse(reuse);
+                        //Tags attribute: Processes the tag list if present
+                        processReuseTags(lineOfTags, reuse.getId());
                     }
+
                     entityManager.clear();
                 }
             } //End row iterator
@@ -380,6 +406,7 @@ public class ExcelPOIHelper {
             log.info("Reuses saved: " + reusesCounter);
             log.info("Organizations saved: " + organizationsCounter);
             log.info("Dataset-Reuse Relations saved: " + datasetReusesRelationsCounter);
+            log.info("Tags saved: " + tagCounter);
             if (workbook != null) {
                 workbook.close();
             }
@@ -416,7 +443,7 @@ public class ExcelPOIHelper {
 
     private void saveReuse(Reuse reuse){
         if(reuIndex.containsKey(reuse.getId())){
-            log.info("Duplicated: " + reuse.getId() + " reuse already exists. Skip insert");
+            log.info("Duplicated: " + reuse.getId() + " reuse already exists. Skip insert.");
         }else{
             reuIndex.put(reuse.getId(),null);
             save(reuse);
@@ -425,9 +452,64 @@ public class ExcelPOIHelper {
         }
     }
 
+    private void saveTag(String tagName) {
+        if(tagIndex.containsKey(tagName)){
+            log.info("Duplicated: " + tagName + " tag already exists. Skip insert.");
+        } else {
+            // Add to index
+            tagIndex.put(tagName, null);
+            // Create a new tag
+            Tag tag = new Tag();
+            tag.setId(tagName);
+            // Save tag without starting a transaction (in this case, we already started it in a previous method)
+            save(tag);
+            tagCounter++;
+        }
+    }
+
+    private void saveTagsBulk(String[] strings){
+        for (String word: strings) {
+            saveTag(word);
+        }
+    }
     private void save(Object object){
         entityManager.getTransaction().begin();
         entityManager.persist(object);
         entityManager.getTransaction().commit();
+    }
+
+    private void saveWithoutTransaction(Object object){
+        entityManager.persist(object);
+    }
+
+    private void processDatasetTags(String line, String idDataset){
+        if (!line.isEmpty()) {
+            // Split the line in different tags
+            String [] strings = line.split(",");
+            log.info("--Tags string line: " + line + "--String split: " + strings.toString());
+            saveTagsBulk(strings);
+            entityManager.getTransaction().begin();
+            for (String word: strings) {
+                // Save relation between dataset and tag
+                entityManager.createNativeQuery("INSERT INTO `dataset_tag` (`id_dataset`, `id_tag`) VALUES ('" + idDataset + "','" + word +"')").executeUpdate();
+            }
+
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    private void processReuseTags(String line, String idReuse){
+        if (!line.isEmpty()) {
+            // Split the line in different tags
+            String [] strings = line.split(",");
+            log.info("--Tags string line: " + line + "--String split: " + strings.toString());
+            saveTagsBulk(strings);
+            entityManager.getTransaction().begin();
+            for (String word: strings) {
+                // Save relation between reuse and tag
+                entityManager.createNativeQuery("INSERT INTO `reuse_tag` (`id_reuse`, `id_tag`) VALUES ('" + idReuse + "','" + word +"')").executeUpdate();
+            }
+            entityManager.getTransaction().commit();
+        }
     }
 }

@@ -119,6 +119,7 @@ public class UserApiController implements UserApi {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Problems found during the upload");
+            // TODO Se deberia limpiar/borrar las tablas de la DB para evitar residuos de la carga fallida
             return new ResponseEntity ("Problems found during the upload", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity (HttpStatus.OK);

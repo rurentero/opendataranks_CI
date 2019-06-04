@@ -13,7 +13,7 @@ public interface DatasetRepository extends JpaRepository<Dataset, String> {
     Page<Dataset> findByLicense (String license, Pageable pageable);
     Page<Dataset> findByTitleContainingIgnoreCase (String title, Pageable pageable);
     Page<Dataset> findByOrganizationTitleContainingIgnoreCase (String organizationTitle, Pageable pageable);
-    Page<Dataset> findDistinctByTagsNameIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags
+    Page<Dataset> findDistinctByTagsIdIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags
 
 
     // Find all using ranking
@@ -34,8 +34,8 @@ public interface DatasetRepository extends JpaRepository<Dataset, String> {
 
     // Find by tags using rankings
     // We cant use Distinct with OrderBy if the attribute specified in OrderBy is not present in the SELECT clause. Duplicated should be removed later.
-    Page<Dataset> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(List<String> name, String id, Pageable pageable);
-    Page<Dataset> findByTagsNameIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(List<String> name, String id, Pageable pageable);
+    Page<Dataset> findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(List<String> name, String id, Pageable pageable);
+    Page<Dataset> findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(List<String> name, String id, Pageable pageable);
 
 
 }

@@ -1,8 +1,10 @@
--- Datos base para la tabla Tag
+-- Datos base para la tabla Tag [Ojo: La tabla Tag ya no tiene campo "name"]
+/*
 INSERT INTO `opendataranks_db`.`tag` (`id`, `name`) VALUES ('T1', 'Administracion');
 INSERT INTO `opendataranks_db`.`tag` (`id`, `name`) VALUES ('T2', 'Gobierno');
 INSERT INTO `opendataranks_db`.`tag` (`id`, `name`) VALUES ('T3', 'Videojuegos');
 INSERT INTO `opendataranks_db`.`tag` (`id`, `name`) VALUES ('T4', 'Caceres');
+*/
 
 -- Datos base para la tabla Organization
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O1', 'Todo para la descripcion de APIs', 'Swagger');

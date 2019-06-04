@@ -23,9 +23,6 @@ public class Tag   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("name")
-  private String name = null;
-
   @ManyToMany(fetch = FetchType.LAZY,
           cascade = {
                   CascadeType.PERSIST,
@@ -65,27 +62,6 @@ public class Tag   {
     this.id = id;
   }
 
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-  /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
   /**
    * Get reuses
    * @return reuses
@@ -112,13 +88,12 @@ public class Tag   {
       return false;
     }
     Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.name, tag.name);
+    return Objects.equals(this.id, tag.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(id);
   }
 
   @Override
@@ -127,7 +102,6 @@ public class Tag   {
     sb.append("class Tag {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }

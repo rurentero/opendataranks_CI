@@ -19,6 +19,7 @@ public class ExcelColumns {
     private Integer d_license;
     private Integer d_organization_name;
     private Integer d_organization_id;
+    private Integer d_tags;
 
     //Reuses columns
     private Integer r_id;
@@ -31,6 +32,7 @@ public class ExcelColumns {
     private Integer r_views;
     private Integer r_type;
     private Integer r_reviewsNum;
+    private Integer r_datasetsNum;
     private Integer r_score;
     private Integer r_score5;
     private Integer r_score4;
@@ -40,6 +42,7 @@ public class ExcelColumns {
     private Integer r_downloads;
     private Integer r_organization_name;
     private Integer r_organization_id;
+    private Integer r_tags;
 
     //Relations columns
     private Integer dr_id_dataset;
@@ -151,6 +154,10 @@ public class ExcelColumns {
         this.d_organization_id = d_organization_id;
     }
 
+    public Integer getD_tags() { return d_tags; }
+
+    public void setD_tags(Integer d_tags) { this.d_tags = d_tags; }
+
     public Integer getR_id() {
         return r_id;
     }
@@ -231,6 +238,10 @@ public class ExcelColumns {
         this.r_reviewsNum = r_reviewsNum;
     }
 
+    public Integer getR_datasetsNum() { return r_datasetsNum; }
+
+    public void setR_datasetsNum(Integer r_datasetsNum) { this.r_datasetsNum = r_datasetsNum; }
+
     public Integer getR_score() {
         return r_score;
     }
@@ -303,6 +314,10 @@ public class ExcelColumns {
         this.r_organization_id = r_organization_id;
     }
 
+    public Integer getR_tags() { return r_tags; }
+
+    public void setR_tags(Integer r_tags) { this.r_tags = r_tags; }
+
     public Integer getDr_id_dataset() {
         return dr_id_dataset;
     }
@@ -335,6 +350,7 @@ public class ExcelColumns {
                 ", d_license=" + d_license +
                 ", d_organization_name=" + d_organization_name +
                 ", d_organization_id=" + d_organization_id +
+                ", d_tags=" + d_tags +
                 ", r_id=" + r_id +
                 ", r_title=" + r_title +
                 ", r_description=" + r_description +
@@ -345,6 +361,7 @@ public class ExcelColumns {
                 ", r_views=" + r_views +
                 ", r_type=" + r_type +
                 ", r_reviewsNum=" + r_reviewsNum +
+                ", r_datasetsNum=" + r_datasetsNum +
                 ", r_score=" + r_score +
                 ", r_score5=" + r_score5 +
                 ", r_score4=" + r_score4 +
@@ -354,6 +371,7 @@ public class ExcelColumns {
                 ", r_downloads=" + r_downloads +
                 ", r_organization_name=" + r_organization_name +
                 ", r_organization_id=" + r_organization_id +
+                ", r_tags=" + r_tags +
                 ", dr_id_dataset=" + dr_id_dataset +
                 ", dr_id_reuse=" + dr_id_reuse +
                 '}';

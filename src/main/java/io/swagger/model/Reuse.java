@@ -28,7 +28,6 @@ public class Reuse implements Serializable {
 
   //TODO Cambiar la inicializacion de las variables y poner una por defecto
   // TODO Mejor idea?: Declarar normal y poner constructor por defecto con todo inicializado a cadena vacía o un número
-  // TODO Falta datasetsNum? comprobar en el excel
 
   @JsonProperty("title")
   private String title = null;
@@ -56,6 +55,9 @@ public class Reuse implements Serializable {
 
   @JsonProperty("reviews_num")
   private Integer reviewsNum = 0;
+
+  @JsonProperty("datasets_num")
+  private Integer datasetsNum = 0;
 
   @JsonProperty("score")
   private Float score = 0f;
@@ -477,7 +479,13 @@ public class Reuse implements Serializable {
 
   public void setWeightAssoc(List<ReuseWeight> weightAssoc) { this.weightAssoc = weightAssoc; }
 
+  /**
+   * Get datasetsNum
+   * @return datasetsNum
+   **/
+  public Integer getDatasetsNum() { return datasetsNum; }
 
+  public void setDatasetsNum(Integer datasetsNum) { this.datasetsNum = datasetsNum; }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -516,7 +524,7 @@ public class Reuse implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Reuse {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
@@ -527,6 +535,7 @@ public class Reuse implements Serializable {
     sb.append("    views: ").append(toIndentedString(views)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    reviewsNum: ").append(toIndentedString(reviewsNum)).append("\n");
+    sb.append("    datasetsNum: ").append(toIndentedString(datasetsNum)).append("\n");
     sb.append("    score: ").append(toIndentedString(score)).append("\n");
     sb.append("    score5: ").append(toIndentedString(score5)).append("\n");
     sb.append("    score4: ").append(toIndentedString(score4)).append("\n");

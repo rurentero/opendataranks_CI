@@ -24,6 +24,7 @@ public class FormDataWithFile {
     private String d_license;
     private String d_organization_name;
     private String d_organization_id;
+    private String d_tags;
 
     //Reuses mapping
     private String r_id;
@@ -36,6 +37,7 @@ public class FormDataWithFile {
     private String r_views;
     private String r_type;
     private String r_reviewsNum;
+    private String r_datasetsNum;
     private String r_score;
     private String r_score5;
     private String r_score4;
@@ -45,6 +47,7 @@ public class FormDataWithFile {
     private String r_downloads;
     private String r_organization_name;
     private String r_organization_id;
+    private String r_tags;
 
     //Relations mapping
     private String dr_id_dataset;
@@ -166,6 +169,10 @@ public class FormDataWithFile {
         this.d_organization_id = d_organization_id;
     }
 
+    public String getD_tags() { return d_tags; }
+
+    public void setD_tags(String d_tags) { this.d_tags = d_tags; }
+
     public String getR_id() {
         return r_id;
     }
@@ -246,6 +253,10 @@ public class FormDataWithFile {
         this.r_reviewsNum = r_reviewsNum;
     }
 
+    public String getR_datasetsNum() { return r_datasetsNum; }
+
+    public void setR_datasetsNum(String r_datasetsNum) { this.r_datasetsNum = r_datasetsNum; }
+
     public String getR_score() {
         return r_score;
     }
@@ -318,6 +329,10 @@ public class FormDataWithFile {
         this.r_organization_id = r_organization_id;
     }
 
+    public String getR_tags() { return r_tags; }
+
+    public void setR_tags(String r_tags) { this.r_tags = r_tags; }
+
     public String getDr_id_dataset() {
         return dr_id_dataset;
     }
@@ -337,7 +352,8 @@ public class FormDataWithFile {
     @Override
     public String toString() {
         return "FormDataWithFile{" +
-                "d_id='" + d_id + '\'' +
+                "file=" + file +
+                ", d_id='" + d_id + '\'' +
                 ", d_title='" + d_title + '\'' +
                 ", d_description='" + d_description + '\'' +
                 ", d_createdAt='" + d_createdAt + '\'' +
@@ -350,6 +366,7 @@ public class FormDataWithFile {
                 ", d_license='" + d_license + '\'' +
                 ", d_organization_name='" + d_organization_name + '\'' +
                 ", d_organization_id='" + d_organization_id + '\'' +
+                ", d_tags='" + d_tags + '\'' +
                 ", r_id='" + r_id + '\'' +
                 ", r_title='" + r_title + '\'' +
                 ", r_description='" + r_description + '\'' +
@@ -360,6 +377,7 @@ public class FormDataWithFile {
                 ", r_views='" + r_views + '\'' +
                 ", r_type='" + r_type + '\'' +
                 ", r_reviewsNum='" + r_reviewsNum + '\'' +
+                ", r_datasetsNum='" + r_datasetsNum + '\'' +
                 ", r_score='" + r_score + '\'' +
                 ", r_score5='" + r_score5 + '\'' +
                 ", r_score4='" + r_score4 + '\'' +
@@ -369,6 +387,7 @@ public class FormDataWithFile {
                 ", r_downloads='" + r_downloads + '\'' +
                 ", r_organization_name='" + r_organization_name + '\'' +
                 ", r_organization_id='" + r_organization_id + '\'' +
+                ", r_tags='" + r_tags + '\'' +
                 ", dr_id_dataset='" + dr_id_dataset + '\'' +
                 ", dr_id_reuse='" + dr_id_reuse + '\'' +
                 '}';

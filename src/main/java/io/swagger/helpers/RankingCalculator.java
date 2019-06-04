@@ -32,7 +32,6 @@ public class RankingCalculator {
      * Check every Weight and Reuse and calculate its ranking value. Then, this relation is persisted into the database.
      */
     public void calculateReuseRankings() {
-        // TODO Chequear todos los formatos del excel y probar con la totalidad de los campos.
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         //Retrieve all weights and reuses
