@@ -10,7 +10,7 @@ import java.util.List;
 public interface DatasetRepository extends JpaRepository<Dataset, String> {
     // Already available:   findAll()
     //                      findById()
-    Page<Dataset> findByLicense (String license, Pageable pageable);
+    Page<Dataset> findByLicenseContainingIgnoreCase(String license, Pageable pageable);
     Page<Dataset> findByTitleContainingIgnoreCase (String title, Pageable pageable);
     Page<Dataset> findByOrganizationTitleContainingIgnoreCase (String organizationTitle, Pageable pageable);
     Page<Dataset> findDistinctByTagsIdIgnoreCaseIn(List<String> name, Pageable pageable); //Containing Any Of given tags

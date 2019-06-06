@@ -86,7 +86,7 @@ public class DatasetsApiController implements DatasetsApi {
 
         if(pageable.getSort()!=null) {
             log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
-            datasets = datasetRepository.findByLicense(license,pageable);
+            datasets = datasetRepository.findByLicenseContainingIgnoreCase(license,pageable);
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
