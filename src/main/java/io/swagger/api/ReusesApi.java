@@ -36,7 +36,7 @@ public interface ReusesApi {
     @RequestMapping(value = "/reuses",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by name", nickname = "getAllReusesByName", notes = "Returns all reuses in database that matchs a name ", response = Reuse.class, responseContainer = "List", tags={  })
@@ -46,7 +46,7 @@ public interface ReusesApi {
     @RequestMapping(value = "/reuses/findByName",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Reuse>> getAllReusesByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Reuse>> getAllReusesByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by organization", nickname = "getAllReusesByOrganization", notes = "Returns all reuses in database that matchs an organization ", response = Reuse.class, responseContainer = "List", tags={  })
@@ -56,7 +56,7 @@ public interface ReusesApi {
     @RequestMapping(value = "/reuses/findByOrganization",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Reuse>> getAllReusesByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Reuse>> getAllReusesByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by tags", nickname = "getAllReusesByTags", notes = "Returns all reuses in database that matchs a list of tags ", response = Reuse.class, responseContainer = "List", tags={  })
@@ -66,7 +66,7 @@ public interface ReusesApi {
     @RequestMapping(value = "/reuses/findByTags",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Reuse>> getAllReusesByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Reuse>> getAllReusesByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Get reuse by id", nickname = "getReuseById", notes = "Returns an specific dataset ", response = Reuse.class, tags={  })

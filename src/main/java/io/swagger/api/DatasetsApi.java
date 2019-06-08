@@ -36,7 +36,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Dataset>> getAllDatasets(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasets(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by license", nickname = "getAllDatasetsByLicense", notes = "Returns all datasets in database that matchs a license type ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -46,7 +46,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByLicense",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license tyoe of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license tyoe of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by name", nickname = "getAllDatasetsByName", notes = "Returns all datasets in database that matchs a name ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -56,7 +56,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByName",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by organization", nickname = "getAllDatasetsByOrganization", notes = "Returns all datasets in database that matchs an organization ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -66,7 +66,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByOrganization",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by tags", nickname = "getAllDatasetsByTags", notes = "Returns all datasets in database that matchs a list of tags ", response = Dataset.class, responseContainer = "List", tags={  })
@@ -76,7 +76,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByTags",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Get dataset by id", nickname = "getDatasetById", notes = "Returns an specific dataset ", response = Dataset.class, tags={  })

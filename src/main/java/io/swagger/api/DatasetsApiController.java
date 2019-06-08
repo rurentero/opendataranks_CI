@@ -50,7 +50,7 @@ public class DatasetsApiController implements DatasetsApi {
         this.request = request;
     }
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasets(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasets(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         // Retrieve Datasets
         Page<Dataset> datasets;
@@ -75,7 +75,7 @@ public class DatasetsApiController implements DatasetsApi {
         return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license type of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license type of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
 
         if (license==null)
@@ -104,7 +104,7 @@ public class DatasetsApiController implements DatasetsApi {
         return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
 
         if (name==null)
@@ -133,7 +133,7 @@ public class DatasetsApiController implements DatasetsApi {
         return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         if(name==null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
@@ -161,7 +161,7 @@ public class DatasetsApiController implements DatasetsApi {
         return new ResponseEntity (pr, HttpStatus.OK);
     }
 
-    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(required = false) Boolean inverted,  Pageable pageable, PagedResourcesAssembler assembler) {
+    public ResponseEntity<PagedResources<Dataset>> getAllDatasetsByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted,  Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         if(tags.isEmpty())
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
