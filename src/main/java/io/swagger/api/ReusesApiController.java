@@ -55,7 +55,7 @@ public class ReusesApiController implements ReusesApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByWeightAssocWeightIdOrderByWeightAssocValueDesc(rankingId, pageable);
             }else {
@@ -82,7 +82,7 @@ public class ReusesApiController implements ReusesApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
@@ -109,7 +109,7 @@ public class ReusesApiController implements ReusesApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
@@ -137,7 +137,7 @@ public class ReusesApiController implements ReusesApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
             }else {

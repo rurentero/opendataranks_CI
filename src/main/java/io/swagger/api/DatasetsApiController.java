@@ -61,7 +61,8 @@ public class DatasetsApiController implements DatasetsApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            log.info("PARAMETRO INVERTED: " + inverted);
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByWeightAssocWeightIdOrderByWeightAssocValueDesc(rankingId, pageable);
             }else {
@@ -90,7 +91,7 @@ public class DatasetsApiController implements DatasetsApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(license, rankingId, pageable);
             }else {
@@ -119,7 +120,7 @@ public class DatasetsApiController implements DatasetsApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
@@ -147,7 +148,7 @@ public class DatasetsApiController implements DatasetsApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
@@ -175,7 +176,7 @@ public class DatasetsApiController implements DatasetsApi {
         }else {
             log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
             log.info("Key de ranking a usar: " + rankingId);
-            if(inverted==null) {
+            if(!inverted) {
                 log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
             }else {
