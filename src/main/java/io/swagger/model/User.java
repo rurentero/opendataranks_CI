@@ -24,16 +24,13 @@ public class User   {
   private Long id = null;
 
   @JsonProperty("username")
-  private String username = null;
-
-  @JsonProperty("email")
-  private String email = null;
+  private String username;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
 
-  @JsonProperty("role")
-  private Integer role = null;
+  @JsonProperty("token")
+  private String token;
 
 
   public User id(Long id) {
@@ -76,26 +73,6 @@ public class User   {
     this.username = username;
   }
 
-  public User email(String email) {
-    this.email = email;
-    return this;
-  }
-
-  /**
-   * Get email
-   * @return email
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
   public User password(String password) {
     this.password = password;
     return this;
@@ -116,59 +93,40 @@ public class User   {
     this.password = password;
   }
 
-  public User role(Integer role) {
-    this.role = role;
-    return this;
+
+  public String getToken() {
+    return token;
   }
 
-  /**
-   * Get role
-   * @return role
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public Integer getRole() {
-    return role;
+  public void setToken(String token) {
+    this.token = token;
   }
 
-  public void setRole(Integer role) {
-    this.role = role;
-  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
-    return Objects.equals(this.id, user.id) &&
-        Objects.equals(this.username, user.username) &&
-        Objects.equals(this.email, user.email) &&
-        Objects.equals(this.password, user.password) &&
-        Objects.equals(this.role, user.role);
+    return Objects.equals(id, user.id) &&
+            Objects.equals(username, user.username) &&
+            Objects.equals(password, user.password) &&
+            Objects.equals(token, user.token);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, email, password, role);
+    return Objects.hash(id, username, password, token);
   }
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class User {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    username: ").append(toIndentedString(username)).append("\n");
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    role: ").append(toIndentedString(role)).append("\n");
-    sb.append("}");
-    return sb.toString();
+    return "User{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", token='" + token + '\'' +
+            '}';
   }
 
   /**

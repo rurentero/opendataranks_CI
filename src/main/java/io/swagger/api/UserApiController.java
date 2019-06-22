@@ -1,5 +1,10 @@
 package io.swagger.api;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+
 import io.swagger.helpers.ExcelPOIHelper;
 import io.swagger.helpers.FormDataWithFile;
 import io.swagger.helpers.RankingCalculator;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -24,12 +30,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
-@Controller
+@RestController
 public class UserApiController implements UserApi {
 
+    // TODO Una vez esté en la versión definitiva, eliminar los métodos que no se usarán nunca tanto de aquí
+    //  como de la interfaz superior.
     private static final Logger log = LoggerFactory.getLogger(UserApiController.class);
 
     private final ObjectMapper objectMapper;
@@ -55,10 +65,10 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
+//    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
+//        String accept = request.getHeader("Accept");
+//        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+//    }
 
     public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
         String accept = request.getHeader("Accept");
@@ -85,9 +95,45 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Weight>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    // TODO Login anterior, mover la doc de api al login definitivo
     public ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<String>("Hello "+ username + " !!!", HttpStatus.OK);
+    }
+    // TODO ZOna de prueba que queremos securizar
+    public String helloWorld(@RequestParam(value="name", defaultValue="World") String name) {
+        return "Hello administrator "+name+"!!";
+    }
+
+    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+
+        // TODO En este punto habría que autenticar al usuario contra la BD o ponerlo estático aquí. Actualmente se despachan todas las peticiones.
+        String token = getJWTToken(username);
+        User user = new User();
+        user.setUsername(username);
+        user.setToken(token);
+        // TODO Al User que se envía de vuelta se le asigna la PWD? En principio, por terminos de seguirdad, no debería.
+        return user;
+    }
+
+    private String getJWTToken(String username) {
+        String secretKey = "mySecretKey";
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                .commaSeparatedStringToAuthorityList("ROLE_USER");
+
+        String token = Jwts
+                .builder()
+                .setId("softtekJWT")
+                .setSubject(username)
+                .claim("authorities",
+                        grantedAuthorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))   // Token will last for 10 minutes
+                .signWith(SignatureAlgorithm.HS512,
+                        secretKey.getBytes()).compact();
+
+        return "Bearer " + token;
     }
 
     public ResponseEntity<Void> logoutUser() {

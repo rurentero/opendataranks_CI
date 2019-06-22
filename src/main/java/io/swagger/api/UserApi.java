@@ -35,13 +35,13 @@ public interface UserApi {
     ResponseEntity<Void> addWeight(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "Weight to add"  )  @Valid @RequestBody Weight body);
 
 
-    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") })
-    @RequestMapping(value = "/user",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
+//    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={  })
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 200, message = "successful operation") })
+//    @RequestMapping(value = "/user",
+//        consumes = { "application/json" },
+//        method = RequestMethod.POST)
+//    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
 
 
     @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={  })
@@ -95,14 +95,37 @@ public interface UserApi {
     ResponseEntity<Weight> getWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId);
 
 
+    // TODO Endpoin de login para los administradores. Login anterior, mover la doc de api al login definitivo
     @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
-        @ApiResponse(code = 400, message = "Invalid username/password supplied") })
-    @RequestMapping(value = "/user/login",
+        @ApiResponse(code = 403, message = "Invalid username/password supplied") })
+    @RequestMapping(value = "/login",
         produces = { "application/json", "application/xml" }, 
         method = RequestMethod.GET)
     ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
+
+    // TODO Punto de prueba a securizar
+    @RequestMapping(value = "/admins/hello",
+            produces = { "application/json", "application/xml" },
+            method = RequestMethod.GET)
+    public String helloWorld(@RequestParam(value="name", defaultValue="World") String name);
+
+    @PostMapping(value = "/user")
+    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={  })
