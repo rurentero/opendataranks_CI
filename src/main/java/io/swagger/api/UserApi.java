@@ -94,25 +94,19 @@ public interface UserApi {
         method = RequestMethod.GET)
     ResponseEntity<Weight> getWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId);
 
-
-    // TODO Endpoin de login para los administradores. Login anterior, mover la doc de api al login definitivo
-    @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = String.class),
-        @ApiResponse(code = 403, message = "Invalid username/password supplied") })
-    @RequestMapping(value = "/login",
-        produces = { "application/json", "application/xml" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
-
     // TODO Punto de prueba a securizar
     @RequestMapping(value = "/admins/hello",
             produces = { "application/json", "application/xml" },
             method = RequestMethod.GET)
     public String helloWorld(@RequestParam(value="name", defaultValue="World") String name);
 
-    @PostMapping(value = "/user")
-    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd);
+    @ApiOperation(value = "Logs user into the system", nickname = "login", notes = "", response = User.class, tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successful operation", response = String.class),
+            @ApiResponse(code = 403, message = "Invalid username/password supplied") })
+    @PostMapping(value = "/user",
+            produces = { "application/json" })
+    public ResponseEntity<User> login(@NotNull @ApiParam(value = "The user name for login", required = true) @RequestParam("user") String username, @NotNull @ApiParam(value = "The password for login in clear text", required = true) @RequestParam("password") String pwd);
 
 
 

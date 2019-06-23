@@ -42,6 +42,9 @@ public class UserApiController implements UserApi {
     //  como de la interfaz superior.
     private static final Logger log = LoggerFactory.getLogger(UserApiController.class);
 
+    private final String adminUsername = "opendataranks_admin";
+    private final String adminPwd = "opendataranks_api";
+
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
@@ -95,24 +98,24 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Weight>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    // TODO Login anterior, mover la doc de api al login definitivo
-    public ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
-        return new ResponseEntity<String>("Hello "+ username + " !!!", HttpStatus.OK);
-    }
     // TODO ZOna de prueba que queremos securizar
     public String helloWorld(@RequestParam(value="name", defaultValue="World") String name) {
         return "Hello administrator "+name+"!!";
     }
 
-    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+    public ResponseEntity<User> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
-        // TODO En este punto habría que autenticar al usuario contra la BD o ponerlo estático aquí. Actualmente se despachan todas las peticiones.
-        String token = getJWTToken(username);
-        User user = new User();
-        user.setUsername(username);
-        user.setToken(token);
-        // TODO Al User que se envía de vuelta se le asigna la PWD? En principio, por terminos de seguirdad, no debería.
-        return user;
+        // TODO Comprobar contra la BD en lugar de en el código?
+
+        if ( username.equals(adminUsername) && pwd.equals(adminPwd) ) {
+            User user = new User();
+            String token = getJWTToken(username);
+            user.setUsername(username);
+            user.setToken(token);
+            return new ResponseEntity<User> (user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
     }
 
     private String getJWTToken(String username) {
