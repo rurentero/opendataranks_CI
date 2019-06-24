@@ -160,13 +160,10 @@ public class UserApiController implements UserApi {
     // TODO Seccion para los administradores: Subida de fichero (hecho), añadir nueva ponderacion
     // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
 
-    // TODO Delete de la base de datos (tablas: dataset_reuse, dataset_tag, dataset_weight, reuse_tag, reuse_weight, tag, dataset, reuse, organization)
-
     /**
      * Delete all of the database content but weights
      * @return
      */
-    // TODO Probar
     public ResponseEntity<Void> resetDatabase() {
         deleteDatabaseContent();
         return new ResponseEntity (HttpStatus.OK);

@@ -142,7 +142,6 @@ public interface UserApi {
     // ADMINS section. Path: /admins
     // TODO Seccion para los administradores: Subida de fichero, añadir nueva ponderacion
 
-    // TODO Probar
     @ApiOperation(value = "Clears database", nickname = "resetDatabase", notes = "This can only be done by an admin.", tags={  })
     @ApiResponses(value = {
             @ApiResponse(code = 500, message = "Problems found during the operation"),
