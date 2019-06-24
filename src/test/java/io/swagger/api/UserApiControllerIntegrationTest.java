@@ -37,12 +37,12 @@ public class UserApiControllerIntegrationTest {
 //        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
 //    }
 
-    @Test
-    public void deleteUserTest() throws Exception {
-        String username = "username_example";
-        ResponseEntity<Void> responseEntity = api.deleteUser(username);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
-    }
+//    @Test
+//    public void deleteUserTest() throws Exception {
+//        String username = "username_example";
+//        ResponseEntity<Void> responseEntity = api.deleteUser(username);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//    }
 
     @Test
     public void deleteWeightByIdTest() throws Exception {
@@ -59,12 +59,12 @@ public class UserApiControllerIntegrationTest {
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
-    @Test
-    public void getUserByNameTest() throws Exception {
-        String username = "username_example";
-        ResponseEntity<User> responseEntity = api.getUserByName(username);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
-    }
+//    @Test
+//    public void getUserByNameTest() throws Exception {
+//        String username = "username_example";
+//        ResponseEntity<User> responseEntity = api.getUserByName(username);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//    }
 
     @Test
     public void getWeightByIdTest() throws Exception {
@@ -88,12 +88,12 @@ public class UserApiControllerIntegrationTest {
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
-    @Test
-    public void updateUserTest() throws Exception {
-        User body = new User();
-        String username = "username_example";
-        ResponseEntity<Void> responseEntity = api.updateUser(body, username);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
-    }
+//    @Test
+//    public void updateUserTest() throws Exception {
+//        User body = new User();
+//        String username = "username_example";
+//        ResponseEntity<Void> responseEntity = api.updateUser(body, username);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//    }
 
 }

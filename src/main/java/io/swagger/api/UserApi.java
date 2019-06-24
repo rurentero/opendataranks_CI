@@ -44,13 +44,13 @@ public interface UserApi {
 //    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
 
 
-    @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied"),
-        @ApiResponse(code = 404, message = "User not found") })
-    @RequestMapping(value = "/user/{username}",
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
+//    @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={  })
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 400, message = "Invalid username supplied"),
+//        @ApiResponse(code = 404, message = "User not found") })
+//    @RequestMapping(value = "/user/{username}",
+//        method = RequestMethod.DELETE)
+//    ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Delete a specific weight from an user", nickname = "deleteWeightById", notes = "", tags={  })
@@ -73,15 +73,15 @@ public interface UserApi {
     ResponseEntity<List<Weight>> getAllWeights(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username);
 
 
-    @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = User.class),
-        @ApiResponse(code = 400, message = "Invalid username supplied"),
-        @ApiResponse(code = 404, message = "User not found") })
-    @RequestMapping(value = "/user/{username}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
+//    @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={  })
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 200, message = "successful operation", response = User.class),
+//        @ApiResponse(code = 400, message = "Invalid username supplied"),
+//        @ApiResponse(code = 404, message = "User not found") })
+//    @RequestMapping(value = "/user/{username}",
+//        produces = { "application/json" },
+//        method = RequestMethod.GET)
+//    ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Get a specific weight from an user", nickname = "getWeightById", notes = "", response = Weight.class, tags={  })
@@ -94,7 +94,6 @@ public interface UserApi {
         method = RequestMethod.GET)
     ResponseEntity<Weight> getWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId);
 
-    // TODO Punto de prueba a securizar
     @RequestMapping(value = "/admins/hello",
             produces = { "application/json", "application/xml" },
             method = RequestMethod.GET)
@@ -130,18 +129,27 @@ public interface UserApi {
     ResponseEntity<Void> logoutUser();
 
 
-    @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid user supplied"),
-        @ApiResponse(code = 404, message = "User not found") })
-    @RequestMapping(value = "/user/{username}",
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username);
+//    @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={  })
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 400, message = "Invalid user supplied"),
+//        @ApiResponse(code = 404, message = "User not found") })
+//    @RequestMapping(value = "/user/{username}",
+//        consumes = { "application/json" },
+//        method = RequestMethod.PUT)
+//    ResponseEntity<Void> updateUser(@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username);
 
 
     // ADMINS section. Path: /admins
     // TODO Seccion para los administradores: Subida de fichero, añadir nueva ponderacion
+
+    // TODO Probar
+    @ApiOperation(value = "Clears database", nickname = "resetDatabase", notes = "This can only be done by an admin.", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 500, message = "Problems found during the operation"),
+            @ApiResponse(code = 200, message = "Database cleared sucessfully") })
+    @RequestMapping(value = "/admins/resetDatabase",
+            method = RequestMethod.DELETE)
+    ResponseEntity<Void> resetDatabase();
 
     @ApiOperation(value = "Update file and mapping", nickname = "uploadFileAndMapping", notes = "This can only be done by an admin.", tags={  })
     @ApiResponses(value = {

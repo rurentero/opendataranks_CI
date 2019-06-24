@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +60,10 @@ public class UserApiController implements UserApi {
     @Resource(name = "rankingCalculator")
     private RankingCalculator rankingCalculator;
 
+    @Autowired
+    private EntityManagerFactory entityManagerFactory; //Hibernate
+
+
     @org.springframework.beans.factory.annotation.Autowired
     public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -73,10 +80,10 @@ public class UserApiController implements UserApi {
 //        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 //    }
 
-    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
+//    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
+//        String accept = request.getHeader("Accept");
+//        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+//    }
 
     public ResponseEntity<Void> deleteWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId) {
         String accept = request.getHeader("Accept");
@@ -88,17 +95,16 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<List<Weight>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
-    }
+//    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
+//        String accept = request.getHeader("Accept");
+//        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
+//    }
 
     public ResponseEntity<Weight> getWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Weight>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    // TODO ZOna de prueba que queremos securizar
     public String helloWorld(@RequestParam(value="name", defaultValue="World") String name) {
         return "Hello administrator "+name+"!!";
     }
@@ -144,15 +150,29 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> updateUser(@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
+//    public ResponseEntity<Void> updateUser(@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username) {
+//        String accept = request.getHeader("Accept");
+//        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+//    }
 
 
     // ADMINS section. Path: /admins
     // TODO Seccion para los administradores: Subida de fichero (hecho), añadir nueva ponderacion
     // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
+
+    // TODO Delete de la base de datos (tablas: dataset_reuse, dataset_tag, dataset_weight, reuse_tag, reuse_weight, tag, dataset, reuse, organization)
+
+    /**
+     * Delete all of the database content but weights
+     * @return
+     */
+    // TODO Probar
+    public ResponseEntity<Void> resetDatabase() {
+        deleteDatabaseContent();
+        return new ResponseEntity (HttpStatus.OK);
+    }
+
+
 
     public ResponseEntity<Void> uploadFileAndMapping(FormDataWithFile formDataWithFile) {
         try {
@@ -202,6 +222,42 @@ public class UserApiController implements UserApi {
                 }
             }
         }
+    }
+
+    /**
+     * Delete all of the database content but weights.
+     */
+    private void deleteDatabaseContent() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        log.info("User controller: Delete process start.");
+        entityManager.getTransaction().begin();
+
+        log.info("User controller: Setting FK checks to 0");
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
+        log.info("User controller: Deleting dataset_reuse.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.dataset_reuse").executeUpdate();
+        log.info("User controller: Deleting dataset_tag.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.dataset_tag").executeUpdate();
+        log.info("User controller: Deleting dataset_weight.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.dataset_weight").executeUpdate();
+        log.info("User controller: Deleting reuse_tag.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.reuse_tag").executeUpdate();
+        log.info("User controller: Deleting reuse_weight.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.reuse_weight").executeUpdate();
+        log.info("User controller: Deleting tag.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.tag").executeUpdate();
+        log.info("User controller: Deleting dataset.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.dataset").executeUpdate();
+        log.info("User controller: Deleting reuse.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.reuse").executeUpdate();
+        log.info("User controller: Deleting organization.");
+        entityManager.createNativeQuery("TRUNCATE opendataranks_db.organization").executeUpdate();
+        log.info("User controller: Restoring FK checks to 1");
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        log.info("User controller: Delete process done. DB has been cleared.");
     }
 
 }
