@@ -164,6 +164,14 @@ public class Weight implements Serializable {
     this.datasetAssoc = datasetAssoc;
   }
 
+  /**
+   * Check if weight values are correct.
+   * @return True if correct, False if not.
+   */
+  public boolean isValid() {
+    return getId()!=null && getName()!=null && ((getDownloadsVal() + getScoreVal() + getReviewsNumVal()) <= 100 );
+  }
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

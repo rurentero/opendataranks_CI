@@ -24,17 +24,6 @@ import java.util.Map;
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
-    @ApiOperation(value = "Adds a new weight to a user", nickname = "addWeight", notes = "", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "item created"),
-        @ApiResponse(code = 400, message = "invalid input, object invalid"),
-        @ApiResponse(code = 409, message = "an existing item already exists") })
-    @RequestMapping(value = "/user/{username}/weights",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> addWeight(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "Weight to add"  )  @Valid @RequestBody Weight body);
-
-
 //    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={  })
 //    @ApiResponses(value = {
 //        @ApiResponse(code = 200, message = "successful operation") })
@@ -141,6 +130,18 @@ public interface UserApi {
 
     // ADMINS section. Path: /admins
     // TODO Seccion para los administradores: Subida de fichero, añadir nueva ponderacion
+
+    @ApiOperation(value = "Adds a new weight", nickname = "addWeight", notes = "", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Item created"),
+            @ApiResponse(code = 400, message = "Invalid input, object invalid"),
+            @ApiResponse(code = 500, message = "Duplicated entry")})
+    @RequestMapping(value = "/admins/weights",
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<Void> addWeight(@ApiParam(value = "Weight to add"  )  @Valid @RequestBody Weight weight);
+
+
 
     @ApiOperation(value = "Clears database", nickname = "resetDatabase", notes = "This can only be done by an admin.", tags={  })
     @ApiResponses(value = {

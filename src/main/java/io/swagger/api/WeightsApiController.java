@@ -37,6 +37,12 @@ public class WeightsApiController implements WeightsApi {
         this.request = request;
     }
 
+    /**
+     * Retrieves all weights
+     * @param pageable Pageable object
+     * @param assembler Assembler
+     * @return
+     */
     public ResponseEntity<PagedResources<Weight>> getAllWeights(Pageable pageable, PagedResourcesAssembler assembler) {
         String accept = request.getHeader("Accept");
         Page<Weight> weights = weightRepository.findAll(pageable);

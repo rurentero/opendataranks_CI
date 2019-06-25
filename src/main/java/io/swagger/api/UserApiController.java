@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.repository.WeightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -63,16 +64,14 @@ public class UserApiController implements UserApi {
     @Autowired
     private EntityManagerFactory entityManagerFactory; //Hibernate
 
+    @Autowired
+    WeightRepository weightRepository;
+
 
     @org.springframework.beans.factory.annotation.Autowired
     public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
-    }
-
-    public ResponseEntity<Void> addWeight(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "Weight to add"  )  @Valid @RequestBody Weight body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 //    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
@@ -105,10 +104,21 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Weight>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    /**
+     * A test Endpoint which returns a hello world string.
+     * @param name
+     * @return
+     */
     public String helloWorld(@RequestParam(value="name", defaultValue="World") String name) {
         return "Hello administrator "+name+"!!";
     }
 
+    /**
+     * Autenticates user into API.
+     * @param username Username
+     * @param pwd Password
+     * @return
+     */
     public ResponseEntity<User> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
         // TODO Comprobar contra la BD en lugar de en el código?
@@ -124,6 +134,11 @@ public class UserApiController implements UserApi {
         }
     }
 
+    /**
+     * Builds a new token for the given user
+     * @param username Username
+     * @return
+     */
     private String getJWTToken(String username) {
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
@@ -161,6 +176,28 @@ public class UserApiController implements UserApi {
     // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
 
     /**
+     * Adds a new weight to the database and calculates the necesary rankings.
+     * @param weight
+     * @return
+     */
+    public ResponseEntity<Void> addWeight(@ApiParam(value = "Weight to add"  )  @Valid @RequestBody Weight weight) {
+
+        log.info("Weight validation...");
+        if (weight.isValid()) {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            log.info("Adding new weight to DB.");
+            entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('"+ weight.getId() +"', '"+ weight.getDownloadsVal() +"', '"+ weight.getName() +"', '"+ weight.getReviewsNumVal() +"', '"+ weight.getScoreVal() +"')").executeUpdate();
+            entityManager.getTransaction().commit();
+            entityManager.close();
+            // Calculate rankings for the new weight
+            rankingCalculator.calculateReusesRankingsFromWeight(weight);
+            rankingCalculator.calculateDatasetsRankingsFromWeight(weight);
+        }
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    /**
      * Delete all of the database content but weights
      * @return
      */
@@ -170,7 +207,11 @@ public class UserApiController implements UserApi {
     }
 
 
-
+    /**
+     * Upload a file and stores the mapping given by de administrator. After that, populates DB with new info.
+     * @param formDataWithFile Data: Mapping + File
+     * @return
+     */
     public ResponseEntity<Void> uploadFileAndMapping(FormDataWithFile formDataWithFile) {
         try {
             saveFileInLocal(formDataWithFile.getFile());

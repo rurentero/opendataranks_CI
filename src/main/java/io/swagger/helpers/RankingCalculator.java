@@ -57,6 +57,9 @@ public class RankingCalculator {
         log.info("ReuseRankingCalculator:  Finished successfully");
     }
 
+    /**
+     * Check every Weight and Dataset and calculate its ranking value. Then, this relation is persisted into the database.
+     */
     public void calculateDatasetsRankings(){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -83,6 +86,69 @@ public class RankingCalculator {
                 // Once all ranking values are added to calc, insert Dataset-Weight tuple
                 entityManager.createNativeQuery("INSERT INTO `dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('" + calc + "','" + weight.getId() + "','" + dataset.getId() + "')").executeUpdate();
             }
+        }
+        //Commit transaction
+        entityManager.getTransaction().commit();
+        log.info("DatasetRankingCalculator. Dataset calc finished.");
+    }
+
+    /**
+     * Calculate reuses ranking when for a given weight
+     * @param weight Weight
+     */
+    public void calculateReusesRankingsFromWeight(Weight weight) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        //Retrieve all reuses
+        List<Reuse> reuses = reuseRepository.findAll();
+
+        Float calc;
+
+        log.info("ReuseRankingCalculator", "Calculating all reuses ranking for given weight " + weight.getId());
+        entityManager.getTransaction().begin();
+        for (Reuse reuse : reuses) {
+            calc = (weight.getReviewsNumVal() * reuse.getReviewsNum()) +
+                    (weight.getScoreVal() * reuse.getScore()) +
+                    (weight.getDownloadsVal() * reuse.getDownloads());
+            entityManager.createNativeQuery("INSERT INTO `reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('" + calc + "','" + weight.getId() + "','" + reuse.getId() + "')").executeUpdate();
+        } // End reuses block
+
+        //Commit transaction
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        log.info("ReuseRankingCalculator:  Finished successfully");
+    }
+
+    /**
+     * Calculate reuses ranking when for a given weight
+     * @param weight Weight
+     */
+    public void calculateDatasetsRankingsFromWeight(Weight weight) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        //Retrieve all datasets
+        List<Dataset> datasets = datasetRepository.findAll();
+
+        Float calc;
+        log.info("DatasetRankingCalculator. Dataset calc start.");
+
+        //Start transaction
+        entityManager.getTransaction().begin();
+        for (Dataset dataset : datasets) {
+            List<Reuse> datReuses = dataset.getReuses();
+            log.info("DatasetRankingCalculator. Calculating Dataset " + dataset.getId());
+
+            calc = 0f;
+            //For every weight (one in this case), find reuse ranking
+            for (Reuse reuse : datReuses) {
+                Object row = entityManager.createNativeQuery("SELECT `value` FROM `reuse_weight` WHERE `weight_id`='" + weight.getId() + "' AND `reuse_id`='" + reuse.getId() + "'").getSingleResult();
+                calc = calc + (Float) row;
+            }
+            log.info("DatasetRankingCalculator. Ranking result for Weight "+ weight.getId() + ": " + calc );
+
+            // Once all ranking values are added to calc, insert Dataset-Weight tuple
+            entityManager.createNativeQuery("INSERT INTO `dataset_weight` (`value`, `weight_id`, `dataset_id`) VALUES ('" + calc + "','" + weight.getId() + "','" + dataset.getId() + "')").executeUpdate();
+
         }
         //Commit transaction
         entityManager.getTransaction().commit();

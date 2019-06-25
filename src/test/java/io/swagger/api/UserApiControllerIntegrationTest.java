@@ -22,13 +22,13 @@ public class UserApiControllerIntegrationTest {
     @Autowired
     private UserApi api;
 
-    @Test
-    public void addWeightTest() throws Exception {
-        String username = "username_example";
-        Weight body = new Weight();
-        ResponseEntity<Void> responseEntity = api.addWeight(username, body);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
-    }
+//    @Test
+//    public void addWeightTest() throws Exception {
+//        String username = "username_example";
+//        Weight body = new Weight();
+//        ResponseEntity<Void> responseEntity = api.addWeight(username, body);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//    }
 
 //    @Test
 //    public void createUserTest() throws Exception {
