@@ -2,8 +2,14 @@ package io.swagger.api;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.model.Mail;
+import io.swagger.repository.MailRepository;
 import io.swagger.repository.WeightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
@@ -38,6 +44,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @RestController
 public class UserApiController implements UserApi {
@@ -66,6 +75,8 @@ public class UserApiController implements UserApi {
 
     @Autowired
     WeightRepository weightRepository;
+    @Autowired
+    MailRepository mailRepository;
 
 
     @org.springframework.beans.factory.annotation.Autowired
@@ -102,6 +113,48 @@ public class UserApiController implements UserApi {
     public ResponseEntity<Weight> getWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Weight>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    // Mails section.
+
+    /**
+     * Adds a new mail to DB
+     * @param mail Mail
+     * @return
+     */
+    public ResponseEntity<Void> postMail(@ApiParam(value = "Mail to add") @Valid @RequestBody Mail mail ){
+
+        log.info("Adding new mail.");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(mail);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    /**
+     * Retrieve the mails list.
+     * @param pageable Pageable
+     * @param assembler PagedResourcesAssembler
+     * @return
+     */
+    public ResponseEntity<PagedResources<Mail>> getMails(Pageable pageable, PagedResourcesAssembler assembler){
+        log.info("Getting mail list.");
+        Page<Mail> mails = mailRepository.findAll(pageable);
+        PagedResources<Mail> pr = assembler.toResource(mails,linkTo(methodOn(UserApiController.class).getMails(pageable, assembler)).withSelfRel());
+        return new ResponseEntity (pr, HttpStatus.OK);
+    }
+
+    /**
+     * Deletes an specific mail fron the DB.
+     * @param mailId Mail Id
+     * @return
+     */
+    public ResponseEntity<Void> deleteMail(@ApiParam(value = "Mail Id to delete" )  @PathVariable("mailId") Integer mailId){
+        log.info("Deleting mail with id: " + mailId);
+        mailRepository.delete(mailId);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     /**
@@ -171,7 +224,7 @@ public class UserApiController implements UserApi {
 //    }
 
 
-    // ADMINS section. Path: /admins
+    // ADMINS Section. Path: /admins/*
     // TODO Seccion para los administradores: Subida de fichero (hecho), añadir nueva ponderacion
     // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
 

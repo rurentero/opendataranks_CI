@@ -6,9 +6,13 @@
 package io.swagger.api;
 
 import io.swagger.helpers.FormDataWithFile;
+import io.swagger.model.Mail;
 import io.swagger.model.User;
 import io.swagger.model.Weight;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -18,11 +22,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
+
+
+    @ApiOperation(value = "Adds a new mail", nickname = "postMail", notes = "", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Item created"),
+            @ApiResponse(code = 400, message = "Invalid input, object invalid")})
+    @RequestMapping(value = "/postMail",
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<Void> postMail(@ApiParam(value = "Mail to add") @RequestBody Mail mail );
 
 //    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={  })
 //    @ApiResponses(value = {
@@ -129,7 +144,6 @@ public interface UserApi {
 
 
     // ADMINS section. Path: /admins
-    // TODO Seccion para los administradores: Subida de fichero, añadir nueva ponderacion
 
     @ApiOperation(value = "Adds a new weight", nickname = "addWeight", notes = "", tags={  })
     @ApiResponses(value = {
@@ -140,7 +154,6 @@ public interface UserApi {
             consumes = { "application/json" },
             method = RequestMethod.POST)
     ResponseEntity<Void> addWeight(@ApiParam(value = "Weight to add"  )  @Valid @RequestBody Weight weight);
-
 
 
     @ApiOperation(value = "Clears database", nickname = "resetDatabase", notes = "This can only be done by an admin.", tags={  })
@@ -162,4 +175,21 @@ public interface UserApi {
     ResponseEntity<Void> uploadFileAndMapping(@ModelAttribute FormDataWithFile formDataWithFile);
 
 
+    // Admin Mails Section
+
+    @ApiOperation(value = "Get all mails", nickname = "getMails", notes = "Returns all mails in database ", response = Mail.class, responseContainer = "List", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "search results matching criteria", response = Mail.class, responseContainer = "List")})
+    @RequestMapping(value = "/admins/mails",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<PagedResources<Mail>> getMails(Pageable pageable, PagedResourcesAssembler assembler);
+
+    @ApiOperation(value = "Deletes a mail", nickname = "deleteMail", notes = "", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Item deleted")})
+    @RequestMapping(value = "/admins/mails/{mailId}",
+            consumes = { "application/json" },
+            method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteMail(@ApiParam(value = "Mail Id to delete" ) @PathVariable("mailId") Integer mailId);
 }
