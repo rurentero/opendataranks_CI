@@ -20,5 +20,6 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
         config.exposeIdsFor(ReuseWeight.class);
         config.exposeIdsFor(DatasetWeight.class);
         config.exposeIdsFor(User.class);
+        config.exposeIdsFor(Mail.class);
     }
 }
