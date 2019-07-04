@@ -19,9 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -43,6 +46,9 @@ public class DatasetsApiController implements DatasetsApi {
     @Autowired private EntityLinks links;
 
     @Autowired private RepositoryEntityLinks repositoryEntityLinksinks;
+
+    @Autowired
+    private EntityManagerFactory entityManagerFactory; //Hibernate
 
     @org.springframework.beans.factory.annotation.Autowired
     public DatasetsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -200,5 +206,63 @@ public class DatasetsApiController implements DatasetsApi {
         else
             return new ResponseEntity<Dataset>(dataset, HttpStatus.OK);
     }
+
+
+    // TODO Update funcionando. Implementar y probar la IP
+    public ResponseEntity<Void> postLike(@ApiParam(value = "pass the dataset id",required=true) @PathVariable("datasetId") String datasetId, @ApiParam(value = "IP of anonymous user", required=true) @PathVariable("ipuser") String ipuser){
+        if(datasetId==null || ipuser==null)
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
+        Dataset dataset = datasetRepository.findOne(datasetId);
+        if(dataset==null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            log.info("Updating likes for " + datasetId +".");
+            entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`+1 WHERE `id`='" + datasetId + "'").executeUpdate();
+            // TODO Añadir aqui la entrada a la base de datos para la IP
+
+//            log.info("Adding new entry to LikesPerUser.");
+//            entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('"+ weight.getId() +"', '"+ weight.getDownloadsVal() +"', '"+ weight.getName() +"', '"+ weight.getReviewsNumVal() +"', '"+ weight.getScoreVal() +"')").executeUpdate();
+            entityManager.getTransaction().commit();
+            entityManager.close();
+
+            //This method returns the time in millis
+            Date date = new Date();
+            long timeMilli = date.getTime();
+            log.info("postLike: ID: " + datasetId + " IP: " + ipuser + " fecha: " + timeMilli);
+
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
+    // TODO Update funcionando. Implementar y probar la IP
+    public ResponseEntity<Void> postDislike(@ApiParam(value = "pass the dataset id",required=true) @PathVariable("datasetId") String datasetId, @ApiParam(value = "IP of anonymous user", required=true) @PathVariable("ipuser") String ipuser){
+        if(datasetId==null || ipuser==null)
+            return new ResponseEntity (HttpStatus.BAD_REQUEST);
+        Dataset dataset = datasetRepository.findOne(datasetId);
+        if(dataset==null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            log.info("Updating likes for " + datasetId +".");
+            entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`-1 WHERE `id`='" + datasetId + "'").executeUpdate();
+            // TODO Añadir aqui la entrada a la base de datos para la IP
+
+//            log.info("Adding new entry to LikesPerUser.");
+//            entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('"+ weight.getId() +"', '"+ weight.getDownloadsVal() +"', '"+ weight.getName() +"', '"+ weight.getReviewsNumVal() +"', '"+ weight.getScoreVal() +"')").executeUpdate();
+            entityManager.getTransaction().commit();
+            entityManager.close();
+
+            //This method returns the time in millis
+            Date date = new Date();
+            long timeMilli = date.getTime();
+            log.info("postLike: ID: " + datasetId + " IP: " + ipuser + " fecha: " + timeMilli);
+
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
 
 }

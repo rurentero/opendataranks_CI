@@ -225,7 +225,6 @@ public class UserApiController implements UserApi {
 
 
     // ADMINS Section. Path: /admins/*
-    // TODO Seccion para los administradores: Subida de fichero (hecho), añadir nueva ponderacion
     // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
 
     /**

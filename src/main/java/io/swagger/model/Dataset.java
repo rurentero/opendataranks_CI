@@ -93,6 +93,8 @@ public class Dataset implements Serializable  {
   @JsonProperty("weights")
   private List<DatasetWeight> weightAssoc = new ArrayList<>();
 
+  @JsonProperty("likes")
+  private Integer likes = 0;
 
   public Dataset id(String id) {
     this.id = id;
@@ -342,6 +344,18 @@ public class Dataset implements Serializable  {
 
   public void setWeightAssoc(List<DatasetWeight> weightAssoc) {
     this.weightAssoc = weightAssoc;
+  }
+
+  /**
+   * Get likes
+   * @return likes
+   **/
+  public Integer getLikes() {
+    return likes;
+  }
+
+  public void setLikes(Integer likes) {
+    this.likes = likes;
   }
 
   @Override

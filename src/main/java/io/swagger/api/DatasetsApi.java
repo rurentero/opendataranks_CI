@@ -89,4 +89,25 @@ public interface DatasetsApi {
         method = RequestMethod.GET)
     ResponseEntity<Dataset> getDatasetById(@ApiParam(value = "pass the dataset id to return its properties",required=true) @PathVariable("datasetId") String datasetId);
 
+
+    @ApiOperation(value = "Post a like for a specific dataset", nickname = "postLike", notes = " ", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "search results matching criteria"),
+            @ApiResponse(code = 400, message = "bad input parameter"),
+            @ApiResponse(code = 404, message = "resource not found"),
+            @ApiResponse(code = 301, message = "forbidden")})
+    @RequestMapping(value = "/datasets/{datasetId}/like/{ipuser}",
+            method = RequestMethod.POST)
+    ResponseEntity<Void> postLike(@ApiParam(value = "pass the dataset id",required=true) @PathVariable("datasetId") String datasetId, @ApiParam(value = "IP of anonymous user", required=true) @PathVariable("ipuser") String ipuser);
+
+    @ApiOperation(value = "Post a dislike for a specific dataset", nickname = "postDislike", notes = " ", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "search results matching criteria"),
+            @ApiResponse(code = 400, message = "bad input parameter"),
+            @ApiResponse(code = 404, message = "resource not found"),
+            @ApiResponse(code = 301, message = "forbidden")})
+    @RequestMapping(value = "/datasets/{datasetId}/dislike/{ipuser}",
+            method = RequestMethod.POST)
+    ResponseEntity<Void> postDislike(@ApiParam(value = "pass the dataset id",required=true) @PathVariable("datasetId") String datasetId, @ApiParam(value = "IP of anonymous user", required=true) @PathVariable("ipuser") String ipuser);
+
 }
