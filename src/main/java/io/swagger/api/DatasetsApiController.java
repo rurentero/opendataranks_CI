@@ -208,7 +208,6 @@ public class DatasetsApiController implements DatasetsApi {
     }
 
 
-    // TODO Update funcionando. Implementar y probar la IP
     public ResponseEntity<Void> postLike(@ApiParam(value = "pass the dataset id",required=true) @PathVariable("datasetId") String datasetId, @ApiParam(value = "IP of anonymous user", required=true) @PathVariable("ipuser") String ipuser){
         if(datasetId==null || ipuser==null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
@@ -218,25 +217,31 @@ public class DatasetsApiController implements DatasetsApi {
         } else {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            log.info("Updating likes for " + datasetId +".");
-            entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`+1 WHERE `id`='" + datasetId + "'").executeUpdate();
-            // TODO Añadir aqui la entrada a la base de datos para la IP
+            boolean ok;
+            log.info("Checking entry in LikesPerUser.");
+            Integer rows = entityManager.createNativeQuery("SELECT `datemilis` FROM `likes_per_user` WHERE `id`='" + dataset.getId() + "' AND `ip`='" + ipuser + "'").getResultList().size();
+            if(rows!=0) {
+                ok=false;
+            } else {
+                log.info("Updating likes for " + datasetId + ".");
+                entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`+1 WHERE `id`='" + datasetId + "'").executeUpdate();
+                log.info("Adding new pair to LikesPerUser");
+                Date date = new Date();
+                long timeMili = date.getTime();
+                entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`likes_per_user` (`id`, `ip`, `datemilis`) VALUES ('"+ dataset.getId() +"', '"+ ipuser +"', '"+ timeMili +"')").executeUpdate();
+                ok=true;
+            }
 
-//            log.info("Adding new entry to LikesPerUser.");
-//            entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('"+ weight.getId() +"', '"+ weight.getDownloadsVal() +"', '"+ weight.getName() +"', '"+ weight.getReviewsNumVal() +"', '"+ weight.getScoreVal() +"')").executeUpdate();
             entityManager.getTransaction().commit();
             entityManager.close();
 
-            //This method returns the time in millis
-            Date date = new Date();
-            long timeMilli = date.getTime();
-            log.info("postLike: ID: " + datasetId + " IP: " + ipuser + " fecha: " + timeMilli);
-
-            return new ResponseEntity(HttpStatus.OK);
+            if (ok)
+                return new ResponseEntity(HttpStatus.OK);
+            else
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
 
-    // TODO Update funcionando. Implementar y probar la IP
     public ResponseEntity<Void> postDislike(@ApiParam(value = "pass the dataset id",required=true) @PathVariable("datasetId") String datasetId, @ApiParam(value = "IP of anonymous user", required=true) @PathVariable("ipuser") String ipuser){
         if(datasetId==null || ipuser==null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
@@ -246,21 +251,27 @@ public class DatasetsApiController implements DatasetsApi {
         } else {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            log.info("Updating likes for " + datasetId +".");
-            entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`-1 WHERE `id`='" + datasetId + "'").executeUpdate();
-            // TODO Añadir aqui la entrada a la base de datos para la IP
-
-//            log.info("Adding new entry to LikesPerUser.");
-//            entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('"+ weight.getId() +"', '"+ weight.getDownloadsVal() +"', '"+ weight.getName() +"', '"+ weight.getReviewsNumVal() +"', '"+ weight.getScoreVal() +"')").executeUpdate();
+            boolean ok;
+            log.info("Checking entry in LikesPerUser.");
+            Integer rows = entityManager.createNativeQuery("SELECT `datemilis` FROM `likes_per_user` WHERE `id`='" + dataset.getId() + "' AND `ip`='" + ipuser + "'").getResultList().size();
+            if(rows!=0) {
+                ok=false;
+            } else {
+                log.info("Updating likes for " + datasetId +".");
+                entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`-1 WHERE `id`='" + datasetId + "'").executeUpdate();
+                log.info("Adding new pair to LikesPerUser");
+                Date date = new Date();
+                long timeMili = date.getTime();
+                entityManager.createNativeQuery("INSERT INTO `opendataranks_db`.`likes_per_user` (`id`, `ip`, `datemilis`) VALUES ('"+ dataset.getId() +"', '"+ ipuser +"', '"+ timeMili +"')").executeUpdate();
+                ok=true;
+            }
             entityManager.getTransaction().commit();
             entityManager.close();
 
-            //This method returns the time in millis
-            Date date = new Date();
-            long timeMilli = date.getTime();
-            log.info("postLike: ID: " + datasetId + " IP: " + ipuser + " fecha: " + timeMilli);
-
-            return new ResponseEntity(HttpStatus.OK);
+            if (ok)
+                return new ResponseEntity(HttpStatus.OK);
+            else
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
 
