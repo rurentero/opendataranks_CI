@@ -31,9 +31,6 @@ public class LikesMonitor {
         Date date = new Date();
         long deadline = date.getTime() - 86400000;
         entityManager.createNativeQuery("DELETE FROM `opendataranks_db`.`likes_per_user` WHERE `datemilis` < " + deadline).executeUpdate();
-        //DELETE
-        //FROM likes_per_user
-        //WHERE datemilis < 1562263315000;
         entityManager.getTransaction().commit();
         entityManager.close();
     }

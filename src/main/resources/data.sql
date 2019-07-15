@@ -7,7 +7,8 @@ INSERT INTO `opendataranks_db`.`tag` (`id`, `name`) VALUES ('T4', 'Caceres');
 */
 
 -- Datos base para la tabla Organization
-INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O1', 'Todo para la descripcion de APIs', 'Swagger');
+/*
+INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O1', 'Descripcion de APIs', 'Swagger');
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O2', 'Prueba de APIs', 'PostmanOrg');
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O3', 'Gobierno de Francia', 'Gobierno de Francia');
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O4', 'Gobierno de España', 'Gobierno de España');
@@ -18,6 +19,7 @@ INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VAL
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O9', 'Gobierno de Alemania', 'Gobierno de Alemania');
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O10', 'Gobierno de Bélgica', 'Gobierno de Bélgica');
 INSERT INTO `opendataranks_db`.`organization` (`id`, `description`, `title`) VALUES ('O11', 'Gobierno de Rusia', 'Gobierno de Rusia');
+*/
 
 -- Datos base para la tabla Dataset
 /*
