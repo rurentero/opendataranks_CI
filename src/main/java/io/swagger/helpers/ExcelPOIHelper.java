@@ -416,7 +416,7 @@ public class ExcelPOIHelper {
     }
 
 
-    //TODO metodo para leer .xls. En principio es todo igual, cambiando los tipos XSSF
+    // metodo para leer .xls. Es igual, cambiando los tipos XSSF
     private void readHSSFWorkbook(FileInputStream fis) {
     }
 

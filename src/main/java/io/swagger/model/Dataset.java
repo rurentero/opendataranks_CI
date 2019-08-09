@@ -84,8 +84,6 @@ public class Dataset implements Serializable  {
   @JsonIgnoreProperties({"datasets","reuses"})
   private List<Tag> tags = new ArrayList<>();
 
-  // TODO Valorar si se mostrará al usuario el valor calculado por el portal @JsonProperty("weights")
-  // TODO @JsonIgnore para quitar totalmente esta propiedad de los JSON. Sale tanto al recuperar una coleccion como si es una sola mediante Id, ya que se hace referencia directa en el repo (no como con el resto de listas)
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "dataset")
   @JsonProperty("weights")
   private List<DatasetWeight> weightAssoc = new ArrayList<>();
