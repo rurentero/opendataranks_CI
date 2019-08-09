@@ -63,7 +63,7 @@ public class ExcelPOIHelper {
 
         formDataWithFile = formData;
         // Show current mapping
-        log.info(formDataWithFile.toString());
+        //log.info(formDataWithFile.toString());
 
         try {
 
@@ -97,7 +97,7 @@ public class ExcelPOIHelper {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     String columnName = cell.getStringCellValue();
-                    log.info("Column name: " + columnName);
+//                    log.info("Column name: " + columnName);
                     if (columnName.equals(formDataWithFile.getD_id()))
                         excelColumns.setD_id(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getD_title()))
@@ -128,7 +128,7 @@ public class ExcelPOIHelper {
                         excelColumns.setD_tags(cell.getColumnIndex());
                 }
             }
-            log.info("Dataset columns selected: " + excelColumns.toString());
+//            log.info("Dataset columns selected: " + excelColumns.toString());
             //---Second to last row:
             //Initialize EntityManager for Hibernate
             entityManager = entityManagerFactory.createEntityManager();
@@ -211,7 +211,7 @@ public class ExcelPOIHelper {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     String columnName = cell.getStringCellValue();
-                    log.info("Column name: " + columnName);
+//                    log.info("Column name: " + columnName);
                     if (columnName.equals(formDataWithFile.getR_id()))
                         excelColumns.setR_id(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getR_title()))
@@ -256,7 +256,7 @@ public class ExcelPOIHelper {
                         excelColumns.setR_tags(cell.getColumnIndex());
                 }
             }
-            log.info("Reuses columns selected: " + excelColumns.toString());
+//            log.info("Reuses columns selected: " + excelColumns.toString());
 
             //---Second to last row:
 
@@ -353,14 +353,14 @@ public class ExcelPOIHelper {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     String columnName = cell.getStringCellValue();
-                    log.info("Column name: " + columnName);
+//                    log.info("Column name: " + columnName);
                     if (columnName.equals(formDataWithFile.getDr_id_dataset()))
                         excelColumns.setDr_id_dataset(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getDr_id_reuse()))
                         excelColumns.setDr_id_reuse(cell.getColumnIndex());
                 }
             }
-            log.info("Dataset-Reuses Relation columns selected: " + excelColumns.toString());
+//            log.info("Dataset-Reuses Relation columns selected: " + excelColumns.toString());
 
             //---Second to last row:
             //Start a new transaction

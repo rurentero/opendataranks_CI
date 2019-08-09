@@ -135,7 +135,6 @@ public class UserApiController implements UserApi {
      * @return
      */
     public ResponseEntity<Void> deleteMail(@ApiParam(value = "Mail Id to delete" )  @PathVariable("mailId") Integer mailId){
-        log.info("Deleting mail with id: " + mailId);
         mailRepository.delete(mailId);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

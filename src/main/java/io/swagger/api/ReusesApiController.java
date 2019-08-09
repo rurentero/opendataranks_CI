@@ -45,21 +45,15 @@ public class ReusesApiController implements ReusesApi {
     }
 
     public ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
         // Retrieve Reuses
         Page<Reuse> reuses;
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             reuses = reuseRepository.findAll(pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByWeightAssocWeightIdOrderByWeightAssocValueDesc(rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 reuses = reuseRepository.findByWeightAssocWeightIdOrderByWeightAssocValueAsc(rankingId, pageable);
             }
         }
@@ -70,23 +64,17 @@ public class ReusesApiController implements ReusesApi {
     }
 
     public ResponseEntity<PagedResources<Reuse>> getAllReusesByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
         Page<Reuse> reuses;
 
         if (name == null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             reuses = reuseRepository.findByTitleContainingIgnoreCase(name,pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 reuses = reuseRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(name, rankingId, pageable);
             }
         }
@@ -97,23 +85,17 @@ public class ReusesApiController implements ReusesApi {
     }
 
     public ResponseEntity<PagedResources<Reuse>> getAllReusesByOrganization(@NotNull @ApiParam(value = "name of the organization", required = true) @Valid @RequestParam(value = "name", required = true) String name, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
         Page<Reuse> reuses;
 
         if (name == null)
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCase(name,pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 reuses = reuseRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(name, rankingId, pageable);
             }
         }
@@ -125,23 +107,17 @@ public class ReusesApiController implements ReusesApi {
 
 
     public ResponseEntity<PagedResources<Reuse>> getAllReusesByTags(@NotNull @ApiParam(value = "tags used in the search", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
         Page<Reuse> reuses;
 
         if (tags.isEmpty())
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             reuses = reuseRepository.findDistinctByTagsIdIgnoreCaseIn(tags,pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 reuses = reuseRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 reuses = reuseRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
             }
 
@@ -153,7 +129,6 @@ public class ReusesApiController implements ReusesApi {
     }
 
     public ResponseEntity<Reuse> getReuseById(@ApiParam(value = "pass the reuse id to return its properties",required=true) @PathVariable("reuseId") String reuseId) {
-        String accept = request.getHeader("Accept");
         if(reuseId==null)
             return new ResponseEntity<Reuse>(HttpStatus.BAD_REQUEST);
         Reuse reuse = reuseRepository.findOne(reuseId);

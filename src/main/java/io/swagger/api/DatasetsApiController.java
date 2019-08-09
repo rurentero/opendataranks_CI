@@ -62,17 +62,11 @@ public class DatasetsApiController implements DatasetsApi {
         Page<Dataset> datasets;
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             datasets = datasetRepository.findAll(pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
-            log.info("PARAMETRO INVERTED: " + inverted);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByWeightAssocWeightIdOrderByWeightAssocValueDesc(rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 datasets = datasetRepository.findByWeightAssocWeightIdOrderByWeightAssocValueAsc(rankingId, pageable);
             }
         }
@@ -92,16 +86,11 @@ public class DatasetsApiController implements DatasetsApi {
         Page<Dataset> datasets;
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             datasets = datasetRepository.findByLicenseContainingIgnoreCase(license,pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(license, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 datasets = datasetRepository.findByLicenseContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(license, rankingId, pageable);
             }
         }
@@ -121,16 +110,11 @@ public class DatasetsApiController implements DatasetsApi {
         Page<Dataset> datasets;
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             datasets = datasetRepository.findByTitleContainingIgnoreCase(name, pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 datasets = datasetRepository.findByTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(name, rankingId, pageable);
             }
         }
@@ -149,16 +133,11 @@ public class DatasetsApiController implements DatasetsApi {
         Page<Dataset> datasets;
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCase(name, pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueDesc(name, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 datasets = datasetRepository.findByOrganizationTitleContainingIgnoreCaseAndWeightAssocWeightIdOrderByWeightAssocValueAsc(name, rankingId, pageable);
             }
         }
@@ -177,16 +156,11 @@ public class DatasetsApiController implements DatasetsApi {
         Page<Dataset> datasets;
 
         if(pageable.getSort()!=null) {
-            log.info("Info de la REQUEST sobre sort: Existe el sort " + pageable.getSort().toString());
             datasets = datasetRepository.findDistinctByTagsIdIgnoreCaseIn(tags, pageable);
         }else {
-            log.info("Info de la REQUEST sobre sort: " + "Sort es NULO, procediendo a usar RankingParams");
-            log.info("Key de ranking a usar: " + rankingId);
             if(!inverted) {
-                log.info("Parametro Inverted no especificado, usar DESC");
                 datasets = datasetRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueDesc(tags, rankingId, pageable);
             }else {
-                log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 datasets = datasetRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
             }
         }
@@ -223,7 +197,6 @@ public class DatasetsApiController implements DatasetsApi {
             if(rows!=0) {
                 ok=false;
             } else {
-                log.info("Updating likes for " + datasetId + ".");
                 entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`+1 WHERE `id`='" + datasetId + "'").executeUpdate();
                 log.info("Adding new pair to LikesPerUser");
                 Date date = new Date();
@@ -257,7 +230,6 @@ public class DatasetsApiController implements DatasetsApi {
             if(rows!=0) {
                 ok=false;
             } else {
-                log.info("Updating likes for " + datasetId +".");
                 entityManager.createNativeQuery("UPDATE `opendataranks_db`.`dataset` SET `likes`=`likes`-1 WHERE `id`='" + datasetId + "'").executeUpdate();
                 log.info("Adding new pair to LikesPerUser");
                 Date date = new Date();

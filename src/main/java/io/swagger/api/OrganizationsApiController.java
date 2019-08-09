@@ -54,8 +54,7 @@ public class OrganizationsApiController implements OrganizationsApi {
 
 
     public ResponseEntity<PagedResources<Organization>> getAllOrganizationsByName(@NotNull @ApiParam(value = "name of the record to search", required = true) @Valid @RequestParam(value = "name", required = true) String name, Pageable pageable, PagedResourcesAssembler assembler) {
-        String accept = request.getHeader("Accept");
-        log.info("Parametro name: " + name);
+
         if(name==null){
             return new ResponseEntity (HttpStatus.BAD_REQUEST);
         }else{
