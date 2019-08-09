@@ -75,7 +75,7 @@ public class ExcelPOIHelper {
                 readXSSFWorkbook(fis);
             }
         }catch (Exception e) {
-            e.printStackTrace();
+            log.info("Método readExcel: Errores en la lectura del fichero.");
         }
     }
 
