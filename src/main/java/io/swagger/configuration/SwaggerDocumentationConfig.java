@@ -16,13 +16,14 @@ public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("OpenDataRanks API")
-            .description("Esta es la API para el portal OpenDataRanks. EN CONSTRUCCION")
+            .title("OpenDataRanks public API")
+            .description("Welcome to our public API documentation!")
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
             .version("1.0.0")
-            .contact(new Contact("","", "apiteam@swagger.io"))
+            .contact(new Contact("Rubén Rentero Trejo","", "rurentero@alumnos.unex.es"))
+            .contact(new Contact("","", "rrtzaldea@gmail.com"))
             .build();
     }
 

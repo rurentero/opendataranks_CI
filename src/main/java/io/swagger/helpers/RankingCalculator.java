@@ -48,7 +48,7 @@ public class RankingCalculator {
                 calc = (weight.getReviewsNumVal() * reuse.getReviewsNum()) +
                         (weight.getScoreVal() * reuse.getScore()) +
                         (weight.getDownloadsVal() * reuse.getDownloads());
-                entityManager.createNativeQuery("INSERT INTO `reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('" + calc + "','" + weight.getId() + "','" + reuse.getId() + "')").executeUpdate();
+                entityManager.createNativeQuery("INSERT INTO `reuse_weight` (`value`, `weight_id`, `reuse_id`) VALUES ('"+ calc + "','" + weight.getId() + "','" + reuse.getId() + "')").executeUpdate();
             } // End reuses block
             //Commit transaction
             entityManager.getTransaction().commit();

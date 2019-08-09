@@ -59,13 +59,13 @@ INSERT INTO `opendataranks_db`.`reuse` (`id`, `description`, `title`, `type`) VA
 */
 -- Ponderaciones para la tabla Weight
 
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W1', '0.33', 'Balanceado', '0.33', '0.33');
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W12', '1', 'Solo descargas', '0', '0');
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W13', '0', 'Solo comentarios', '1', '0');
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W14', '0', 'Solo puntuacion', '0', '1');
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W15', '0.5', 'Descargas el doble', '0.25', '0.25');
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W16', '0.25', 'Comentarios el doble', '0.5', '0.25');
-INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W17', '0.25', 'Puntuacion el doble', '0.25', '0.5');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W1', '0.33', '(0.33-0.33-0.33) Balanceado', '0.33', '0.33');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W12', '1', '(1-0-0) Solo descargas', '0', '0');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W13', '0', '(0-1-0) Solo comentarios', '1', '0');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W14', '0', '(0-0-1) Solo puntuacion', '0', '1');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W15', '0.5', '(0.5-0.25-0.25) Descargas el doble', '0.25', '0.25');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W16', '0.25', '(0.25-0.5-0.25) Comentarios el doble', '0.5', '0.25');
+INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W17', '0.25', '(0.25-0.25-0.5) Puntuacion el doble', '0.25', '0.5');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W18', '0.5', '(0.5-0.33-0.16) Mayor a menor DCP', '0.33', '0.16');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W19', '0.5', '(0.5-0.33-0.16) Mayor a menor DPC', '0.16', '0.33');
 INSERT INTO `opendataranks_db`.`weight` (`id`, `downloads_val`, `name`, `reviews_num_val`, `score_val`) VALUES ('W20', '0.33', '(0.5-0.33-0.16) Mayor a menor PDC', '0.16', '0.5');
