@@ -64,10 +64,11 @@ public class ExcelPOIHelper {
         formDataWithFile = formData;
         // Show current mapping
         //log.info(formDataWithFile.toString());
+        FileInputStream fis = null;
 
         try {
 
-            FileInputStream fis = new FileInputStream(new File(fileLocation));
+            fis = new FileInputStream(new File(fileLocation));
 
             if (fileLocation.endsWith(".xls")) {
                 readHSSFWorkbook(fis);
@@ -76,6 +77,8 @@ public class ExcelPOIHelper {
             }
         }catch (Exception e) {
             log.info("Método readExcel: Errores en la lectura del fichero.");
+        } finally {
+            fis.close();
         }
     }
 
