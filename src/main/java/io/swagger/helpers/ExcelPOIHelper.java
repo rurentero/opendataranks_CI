@@ -63,7 +63,6 @@ public class ExcelPOIHelper {
 
         formDataWithFile = formData;
         // Show current mapping
-        //log.info(formDataWithFile.toString());
         FileInputStream fis = null;
 
         try {
@@ -78,6 +77,7 @@ public class ExcelPOIHelper {
         }catch (Exception e) {
             log.info("Método readExcel: Errores en la lectura del fichero.");
         } finally {
+            assert fis != null;
             fis.close();
         }
     }
@@ -100,7 +100,6 @@ public class ExcelPOIHelper {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     String columnName = cell.getStringCellValue();
-//                    log.info("Column name: " + columnName);
                     if (columnName.equals(formDataWithFile.getD_id()))
                         excelColumns.setD_id(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getD_title()))
@@ -131,7 +130,6 @@ public class ExcelPOIHelper {
                         excelColumns.setD_tags(cell.getColumnIndex());
                 }
             }
-//            log.info("Dataset columns selected: " + excelColumns.toString());
             //---Second to last row:
             //Initialize EntityManager for Hibernate
             entityManager = entityManagerFactory.createEntityManager();
@@ -214,7 +212,6 @@ public class ExcelPOIHelper {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     String columnName = cell.getStringCellValue();
-//                    log.info("Column name: " + columnName);
                     if (columnName.equals(formDataWithFile.getR_id()))
                         excelColumns.setR_id(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getR_title()))
@@ -259,7 +256,6 @@ public class ExcelPOIHelper {
                         excelColumns.setR_tags(cell.getColumnIndex());
                 }
             }
-//            log.info("Reuses columns selected: " + excelColumns.toString());
 
             //---Second to last row:
 
@@ -356,14 +352,12 @@ public class ExcelPOIHelper {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     String columnName = cell.getStringCellValue();
-//                    log.info("Column name: " + columnName);
                     if (columnName.equals(formDataWithFile.getDr_id_dataset()))
                         excelColumns.setDr_id_dataset(cell.getColumnIndex());
                     if (columnName.equals(formDataWithFile.getDr_id_reuse()))
                         excelColumns.setDr_id_reuse(cell.getColumnIndex());
                 }
             }
-//            log.info("Dataset-Reuses Relation columns selected: " + excelColumns.toString());
 
             //---Second to last row:
             //Start a new transaction
@@ -425,40 +419,40 @@ public class ExcelPOIHelper {
 
     private void saveOrganization(Organization organization){
         if(orgIndex.containsKey(organization.getId())){
-            log.info("Duplicated: " + organization.getId() + " organization already exists. Skip insert");
+            log.info("Duplicated: organization already exists. Skip insert");
         }else{
             orgIndex.put(organization.getId(),null);
             save(organization);
             organizationsCounter++;
-            log.info("Organization saved: " + organization.toString());
+            log.info("Organization saved");
         }
     }
 
     private void saveDataset(Dataset dataset){
         if(datIndex.containsKey(dataset.getId())){
-            log.info("Duplicated: " + dataset.getId() + " dataset already exists. Skip insert");
+            log.info("Duplicated: dataset already exists. Skip insert");
         }else{
             datIndex.put(dataset.getId(),null);
             save(dataset);
             datasetCounter++;
-            log.info("Dataset saved: " + dataset.toString());
+            log.info("Dataset saved ");
         }
     }
 
     private void saveReuse(Reuse reuse){
         if(reuIndex.containsKey(reuse.getId())){
-            log.info("Duplicated: " + reuse.getId() + " reuse already exists. Skip insert.");
+            log.info("Duplicated: reuse already exists. Skip insert.");
         }else{
             reuIndex.put(reuse.getId(),null);
             save(reuse);
             reusesCounter++;
-            log.info("Reuse saved." + reuse.toString());
+            log.info("Reuse saved.");
         }
     }
 
     private void saveTag(String tagName) {
         if(tagIndex.containsKey(tagName)){
-            log.info("Duplicated: " + tagName + " tag already exists. Skip insert.");
+            log.info("Duplicated: tag already exists. Skip insert.");
         } else {
             // Add to index
             tagIndex.put(tagName, null);
