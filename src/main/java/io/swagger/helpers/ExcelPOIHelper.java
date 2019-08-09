@@ -10,21 +10,17 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -69,12 +65,17 @@ public class ExcelPOIHelper {
         // Show current mapping
         log.info(formDataWithFile.toString());
 
-        FileInputStream fis = new FileInputStream(new File(fileLocation));
+        try {
 
-        if (fileLocation.endsWith(".xls")) {
-            readHSSFWorkbook(fis);
-        } else if (fileLocation.endsWith(".xlsx")) {
-            readXSSFWorkbook(fis);
+            FileInputStream fis = new FileInputStream(new File(fileLocation));
+
+            if (fileLocation.endsWith(".xls")) {
+                readHSSFWorkbook(fis);
+            } else if (fileLocation.endsWith(".xlsx")) {
+                readXSSFWorkbook(fis);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -486,7 +487,7 @@ public class ExcelPOIHelper {
         if (!line.isEmpty()) {
             // Split the line in different tags
             String [] strings = line.split(",");
-            log.info("--Tags string line: " + line + "--String split: " + strings.toString());
+            log.info("--Tags string line: " + line + "--String split: " + Arrays.toString(strings));
             saveTagsBulk(strings);
             entityManager.getTransaction().begin();
             for (String word: strings) {
@@ -502,7 +503,7 @@ public class ExcelPOIHelper {
         if (!line.isEmpty()) {
             // Split the line in different tags
             String [] strings = line.split(",");
-            log.info("--Tags string line: " + line + "--String split: " + strings.toString());
+            log.info("--Tags string line: " + line + "--String split: " + Arrays.toString(strings));
             saveTagsBulk(strings);
             entityManager.getTransaction().begin();
             for (String word: strings) {

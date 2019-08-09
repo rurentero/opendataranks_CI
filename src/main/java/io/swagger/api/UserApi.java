@@ -5,26 +5,21 @@
  */
 package io.swagger.api;
 
+import io.swagger.annotations.*;
 import io.swagger.helpers.FormDataWithFile;
 import io.swagger.model.Mail;
 import io.swagger.model.User;
 import io.swagger.model.Weight;
-import io.swagger.annotations.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import javax.websocket.server.PathParam;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {

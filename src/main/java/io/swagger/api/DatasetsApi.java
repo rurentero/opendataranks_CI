@@ -5,26 +5,20 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.Dataset;
 import io.swagger.annotations.*;
+import io.swagger.model.Dataset;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Api(value = "datasets", description = "the datasets API")
 public interface DatasetsApi {
@@ -46,7 +40,7 @@ public interface DatasetsApi {
     @RequestMapping(value = "/datasets/findByLicense",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license tyoe of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
+    ResponseEntity<PagedResources<Dataset>> getAllDatasetsByLicense(@NotNull @ApiParam(value = "license type of the record to search", required = true) @Valid @RequestParam(value = "license", required = true) String license, @RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler);
 
 
     @ApiOperation(value = "Find by name", nickname = "getAllDatasetsByName", notes = "Returns all datasets in database that matchs a name ", response = Dataset.class, responseContainer = "List", tags={  })

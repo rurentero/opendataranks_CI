@@ -38,7 +38,6 @@ public class Weight implements Serializable {
   @JsonProperty("downloads_val")
   private Float downloadsVal = null;
 
-  // TODO Es realmente necesario serializar reuseAssoc y datasetAssoc?
   @OneToMany(mappedBy = "weight")
   @JsonIgnoreProperties({"weight"})
   @JsonIgnore

@@ -51,8 +51,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 public class UserApiController implements UserApi {
 
-    // TODO Una vez esté en la versión definitiva, eliminar los métodos que no se usarán nunca tanto de aquí
-    //  como de la interfaz superior.
     private static final Logger log = LoggerFactory.getLogger(UserApiController.class);
 
     private final String adminUsername = "opendataranks_admin";
@@ -85,16 +83,6 @@ public class UserApiController implements UserApi {
         this.request = request;
     }
 
-//    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
-//        String accept = request.getHeader("Accept");
-//        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-//    }
-
-//    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
-//        String accept = request.getHeader("Accept");
-//        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-//    }
-
     public ResponseEntity<Void> deleteWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
@@ -104,11 +92,6 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<List<Weight>>(HttpStatus.NOT_IMPLEMENTED);
     }
-
-//    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
-//        String accept = request.getHeader("Accept");
-//        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
-//    }
 
     public ResponseEntity<Weight> getWeightById(@ApiParam(value = "The name that needs to be fetched",required=true) @PathVariable("username") String username,@ApiParam(value = "The id that needs to be fetched",required=true) @PathVariable("weightId") Integer weightId) {
         String accept = request.getHeader("Accept");
@@ -174,8 +157,6 @@ public class UserApiController implements UserApi {
      */
     public ResponseEntity<User> login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
-        // TODO Comprobar contra la BD en lugar de en el código?
-
         if ( username.equals(adminUsername) && pwd.equals(adminPwd) ) {
             User user = new User();
             String token = getJWTToken(username);
@@ -218,14 +199,7 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-//    public ResponseEntity<Void> updateUser(@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username) {
-//        String accept = request.getHeader("Accept");
-//        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-//    }
-
-
     // ADMINS Section. Path: /admins/*
-    // TODO ¿Sería correcto lanzar el procesamiento del fichero en un thread a parte para no bloquear la respuesta al admin?
 
     /**
      * Adds a new weight to the database and calculates the necesary rankings.
@@ -270,7 +244,6 @@ public class UserApiController implements UserApi {
             log.info("File sucesfully copied in server system");
             //Call excelPOIHelper and save file content into DB
             excelPOIHelper.readExcel(fileLocation, formDataWithFile);
-            //TODO Mover el procesamiento del fichero y el calculo de ponderaciones a un Thread aparte.
             //Call rankingCalculator
             rankingCalculator.calculateReuseRankings();
             rankingCalculator.calculateDatasetsRankings();
@@ -278,7 +251,6 @@ public class UserApiController implements UserApi {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Problems found during the upload");
-            // TODO Se deberia limpiar/borrar las tablas de la DB para evitar residuos de la carga fallida
             return new ResponseEntity ("Problems found during the upload", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity (HttpStatus.OK);

@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,32 +24,27 @@ public class OrganizationsApiControllerIntegrationTest {
 
     @Autowired
     private OrganizationsApi api;
+    private Pageable pageable;
+    private PagedResourcesAssembler assembler;
 
-    //TODO Implementar tests
     @Test
     public void getAllOrganizationsTest() throws Exception {
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Organization>> responseEntity = api.getAllOrganizations(skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        ResponseEntity<PagedResources<Organization>> responseEntity = api.getAllOrganizations(pageable, assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllOrganizationsByNameTest() throws Exception {
-//        String name = "name_example";
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Organization>> responseEntity = api.getAllOrganizationsByName(name, skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        String name = "name_example";
+        ResponseEntity<PagedResources<Organization>> responseEntity = api.getAllOrganizationsByName(name, pageable, assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllOrganizationsByTagsTest() throws Exception {
-//        List<String> tags = Arrays.asList("tags_example");
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Organization>> responseEntity = api.getAllOrganizationsByTags(tags, skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        List<String> tags = Arrays.asList("tags_example");
+        ResponseEntity<PagedResources<Organization>> responseEntity = api.getAllOrganizationsByTags(tags, pageable, assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test

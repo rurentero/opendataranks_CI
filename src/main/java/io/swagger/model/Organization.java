@@ -1,24 +1,21 @@
 package io.swagger.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Organization

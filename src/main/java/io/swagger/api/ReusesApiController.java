@@ -144,13 +144,6 @@ public class ReusesApiController implements ReusesApi {
                 log.info("Parámetro Inverted especificado, usar ASC: " + inverted);
                 reuses = reuseRepository.findByTagsIdIgnoreCaseInAndWeightAssocWeightIdOrderByWeightAssocValueAsc(tags, rankingId, pageable);
             }
-            //TODO Eliminar duplicados dentro de la pagina
-//            List<Reuse> reusesWithoutDuplicates = reuses.getContent()
-//                    .stream()
-//                    .distinct()
-//                    .collect(Collectors.toList());
-//            log.info(reusesWithoutDuplicates.toString());
-//            reuses = new PageImpl<>(reusesWithoutDuplicates, pageable, reusesWithoutDuplicates.size());
 
         }
 

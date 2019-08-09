@@ -8,6 +8,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,51 +23,41 @@ public class DatasetsApiControllerIntegrationTest {
 
     @Autowired
     private DatasetsApi api;
-
-    //TODO Completar tests
+    private Pageable pageable;
+    private PagedResourcesAssembler assembler;
 
     @Test
     public void getAllDatasetsTest() throws Exception {
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasets(skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        ResponseEntity<PagedResources<Dataset>> responseEntity = api.getAllDatasets("W1",false, pageable,assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByLicenseTest() throws Exception {
-//        String license = "license_example";
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByLicense(license, skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        String license = "Open";
+        ResponseEntity<PagedResources<Dataset>> responseEntity = api.getAllDatasetsByLicense(license,"W1",false, pageable,assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByNameTest() throws Exception {
-//        String name = "name_example";
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByName(name, skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        String name = "ExampleDataset";
+        ResponseEntity<PagedResources<Dataset>> responseEntity = api.getAllDatasetsByName(name,"W1",false, pageable,assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByOrganizationTest() throws Exception {
-//        String name = "name_example";
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByOrganization(name, skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        String name = "ExampleOrganization";
+        ResponseEntity<PagedResources<Dataset>> responseEntity = api.getAllDatasetsByOrganization(name, "W1",false, pageable,assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void getAllDatasetsByTagsTest() throws Exception {
-//        List<String> tags = Arrays.asList("tags_example");
-//        Integer skip = 56;
-//        Integer limit = 56;
-//        ResponseEntity<List<Dataset>> responseEntity = api.getAllDatasetsByTags(tags, skip, limit);
-//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+        List<String> tags = Arrays.asList("ExampleTag");
+        ResponseEntity<PagedResources<Dataset>> responseEntity = api.getAllDatasetsByTags(tags, "W1",false, pageable,assembler);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test

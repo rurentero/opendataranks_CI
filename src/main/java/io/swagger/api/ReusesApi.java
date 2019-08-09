@@ -5,26 +5,20 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.Reuse;
 import io.swagger.annotations.*;
+import io.swagger.model.Reuse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-19T10:19:46.202Z[GMT]")
 @Api(value = "reuses", description = "the reuses API")
 public interface ReusesApi {
