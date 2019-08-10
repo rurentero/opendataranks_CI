@@ -45,7 +45,6 @@ public class ReusesApiController implements ReusesApi {
     }
 
     public ResponseEntity<PagedResources<Reuse>> getAllReuses(@RequestParam(defaultValue = "W1") String rankingId, @RequestParam(defaultValue = "false") Boolean inverted, Pageable pageable, PagedResourcesAssembler assembler) {
-        // Retrieve Reuses
         Page<Reuse> reuses;
 
         if(pageable.getSort()!=null) {
